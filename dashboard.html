@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - MSME Portal</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-page">
+<div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-top">
+            <div class="sidebar-avatar"><i class="fa-solid fa-user"></i></div>
+            <p class="sidebar-welcome">Welcome</p>
+            <h2 class="sidebar-username" id="sidebarUsername">User</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="/dashboard" class="sidebar-link active"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+            <a href="/my_applications.html" class="sidebar-link"><i class="fa-solid fa-file-lines"></i> My Applications</a>
+            <a href="/saved_schemes.html" class="sidebar-link"><i class="fa-solid fa-bookmark"></i> Saved Schemes</a>
+            <a href="/profile.html" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            <a href="/notifications.html" class="sidebar-link"><i class="fa-solid fa-bell"></i> Notifications</a>
+            <a href="#" class="sidebar-link logout-link" onclick="confirmLogout(event)"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+    </aside>
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div>
+                <h1>Welcome to Your Dashboard</h1>
+                <p class="dashboard-greeting" id="greetingText">Good Morning, <span id="dashboardUser">User</span></p>
+            </div>
+            <div class="dashboard-header-actions">
+
+    <button class="home-btn"
+        onclick="window.location.href='/index.html'">
+        <i class="fa-solid fa-house"></i>
+        Home
+    </button>
+
+    <button class="icon-button"
+        onclick="window.location.href='/notifications.html'">
+        <i class="fa-solid fa-bell"></i>
+        <span class="notification-dot"
+            id="notificationCount">0</span>
+    </button>
+
+    <button class="icon-button"
+        onclick="window.location.href='/dashboard'">
+        <i class="fa-solid fa-user"></i>
+    </button>
+
+</div>
+        </header>
+        <section class="dashboard-stats">
+            <div class="stat-card stat-card-blue">
+                <div class="stat-circle" id="appliedCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
+                        <circle cx="50" cy="50" r="45" class="circle-progress" id="appliedProgress"></circle>
+                    </svg>
+                    <div class="circle-text">
+                        <span class="circle-value" id="appliedCount">0</span>
+                        <span class="circle-label">Total</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card stat-card-green">
+                <div class="stat-circle" id="confirmedCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
+                        <circle cx="50" cy="50" r="45" class="circle-progress" id="confirmedProgress"></circle>
+                    </svg>
+                    <div class="circle-text">
+                        <span class="circle-value" id="confirmedCount">0</span>
+                        <span class="circle-label">Confirmed</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card stat-card-orange">
+                <div class="stat-circle" id="pendingCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
+                        <circle cx="50" cy="50" r="45" class="circle-progress" id="pendingProgress"></circle>
+                    </svg>
+                    <div class="circle-text">
+                        <span class="circle-value" id="pendingCount">0</span>
+                        <span class="circle-label">Pending</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card stat-card-purple">
+                <div class="stat-circle" id="savedCircle">
+                    <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
+                        <circle cx="50" cy="50" r="45" class="circle-progress" id="savedProgress"></circle>
+                    </svg>
+                    <div class="circle-text">
+                        <span class="circle-value" id="savedCount">0</span>
+                        <span class="circle-label">Saved</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="dashboard-table-panel">
+            <div class="panel-header">
+                <h2>Recent Applications</h2>
+                <span class="panel-icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+            <div class="table-container">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>Scheme Name</th>
+                            <th>Application ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsTableBody">
+                        <tr><td colspan="4" class="empty-state">No applications found</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+function confirmLogout(event){
+    event.preventDefault();
+    if(confirm('Are you sure you want to logout?')){
+        window.location.href='login.html';
+    }
+}
+
+function formatDate(dateString){
+    return new Date(dateString).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+}
+
+function getStatusClass(status){
+    const s = (status || '').toLowerCase();
+    if(s.includes('confirmed')) return 'status-confirmed';
+    if(s.includes('pending')) return 'status-pending';
+    if(s.includes('review')) return 'status-review';
+    if(s.includes('not-applied')) return 'status-not-applied';
+    return 'status-review';
+}
+
+function animateCircleProgress(circleId, percentage) {
+    const progressCircle = document.querySelector(`#${circleId} .circle-progress`);
+    if (!progressCircle) return;
+    const circumference = 283; // 2 * PI * 45
+    const offset = circumference - (percentage / 100) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+}
+
+async function loadDashboard(){
+    try{
+        const response = await fetch('/api/dashboard-data');
+        if(!response.ok) return;
+        const data = await response.json();
+        document.getElementById('sidebarUsername').textContent = data.username;
+        document.getElementById('dashboardUser').textContent = data.username;
+        
+        const applied = data.stats.total || 0;
+        const confirmed = data.stats.confirmed || 0;
+        const pending = data.stats.pending || 0;
+        const savedSchemes=
+JSON.parse(
+localStorage.getItem(
+"savedSchemes"
+)
+) || [];
+
+const saved =
+savedSchemes.length;
+        
+        document.getElementById('appliedCount').textContent = applied;
+        document.getElementById('confirmedCount').textContent = confirmed;
+        document.getElementById('pendingCount').textContent = pending;
+        document.getElementById('savedCount').textContent = saved;
+        
+        // Calculate and animate progress circles
+        const totalMax = Math.max(applied, 10) || 10;
+        animateCircleProgress('appliedProgress', Math.min((applied / totalMax) * 100, 100));
+        animateCircleProgress('confirmedProgress', Math.min((confirmed / totalMax) * 100, 100));
+        animateCircleProgress('pendingProgress', Math.min((pending / totalMax) * 100, 100));
+        animateCircleProgress('savedProgress', Math.min((saved / totalMax) * 100, 100));
+        
+        const notifResponse =
+await fetch('/api/notification-count');
+
+const notifData =
+await notifResponse.json();
+
+document.getElementById(
+    'notificationCount'
+).textContent =
+notifData.count;
+
+        const body = document.getElementById('applicationsTableBody');
+        body.innerHTML = '';
+        if(!data.applications.length){
+            body.innerHTML = '<tr><td colspan="4" class="empty-state">No applications found</td></tr>';
+            return;
+        }
+        data.applications.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.scheme_name}</td>
+                <td>${item.application_id}</td>
+                <td>${formatDate(item.application_date)}</td>
+                <td><span class="status-pill ${getStatusClass(item.status)}">${item.status}</span></td>
+            `;
+            body.appendChild(row);
+        });
+    }catch(err){
+        console.error(err);
+    }
+}
+
+function updateGreeting(){
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? 'Good Morning' : hour < 18 ? 'Good Afternoon' : 'Good Evening';
+    const name = document.getElementById('dashboardUser').textContent;
+    document.getElementById('greetingText').textContent = `${greeting}, ${name}`;
+}
+
+loadDashboard().then(updateGreeting);
+</script>
+</body>
+</html>

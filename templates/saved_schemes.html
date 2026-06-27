@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Saved Schemes</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+    .top-buttons{
+    display:flex;
+    gap:10px;
+    margin:20px;
+}
+
+.home-btn,
+.back-btn{
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+    font-size:14px;
+}
+
+.home-btn{
+    background:#38609c;
+}
+
+.back-btn{
+    background:#198754;
+}
+
+.home-btn:hover{
+    background:#29508c;
+}
+
+.back-btn:hover{
+    background:#157347;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:20px;
+
+background:
+linear-gradient(
+rgba(10,20,45,.75),
+rgba(10,20,45,.75)
+),
+url("image1.png");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+h1{
+
+text-align:center;
+
+font-size:45px;
+
+margin-bottom:40px;
+
+color:white;
+
+letter-spacing:1px;
+
+text-shadow:
+0 4px 15px rgba(0,0,0,.4);
+
+animation:slideDown 1s ease;
+}
+
+#savedList{
+
+width:85%;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+
+/* CARD */
+
+.card{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px;
+
+border-radius:18px;
+
+background:
+rgba(255,255,255,.15);
+
+backdrop-filter:blur(12px);
+
+border:
+1px solid rgba(255,255,255,.2);
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.2);
+
+color:white;
+
+font-size:26px;
+
+font-weight:bold;
+
+animation:fadeUp .7s ease;
+
+transition:.4s;
+}
+
+
+/* HOVER EFFECT */
+
+.card:hover{
+
+transform:
+translateY(-8px)
+scale(1.02);
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.3);
+
+background:
+linear-gradient(
+135deg,
+rgba(25,118,210,.8),
+rgba(13,71,161,.8)
+);
+}
+
+
+/* DELETE BUTTON */
+
+.deleteBtn{
+
+font-size:28px;
+
+cursor:pointer;
+
+color:#ff5252;
+
+transition:.4s;
+}
+
+.deleteBtn:hover{
+
+transform:
+rotate(15deg)
+scale(1.25);
+
+color:#ff0000;
+}
+
+
+/* EMPTY MESSAGE */
+
+.empty{
+
+color:white;
+
+font-size:35px;
+
+font-weight:bold;
+
+text-align:center;
+
+margin-top:100px;
+
+animation:pulse 1.5s infinite;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(40px);
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+}
+}
+
+
+@keyframes slideDown{
+
+from{
+
+opacity:0;
+
+transform:
+translateY(-40px);
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateY(0);
+}
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+}
+}
+</style>
+
+</head>
+
+<body>
+
+    <div class="top-buttons">
+
+    <button class="home-btn"
+        onclick="window.location.href='/index.html'">
+        <i class="fa-solid fa-house"></i>
+        Home
+    </button>
+
+    <button class="back-btn"
+        onclick="window.location.href='/dashboard'">
+        <i class="fa-solid fa-arrow-left"></i>
+        Dashboard
+    </button>
+
+</div>
+
+<h1>Saved MSME Schemes</h1>
+
+<div id="savedList"></div>
+
+<script>
+
+const schemes =
+JSON.parse(
+localStorage.getItem(
+"savedSchemes"
+)
+) || [];
+
+const list =
+document.getElementById(
+"savedList"
+);
+
+/* Scheme page links */
+
+const schemeLinks={
+
+"PMEGP":"pmegp.html",
+"CGTMSE":"cgtmse.html",
+"MSE-CDP":"msecdp.html",
+"SFURTI":"sfurti.html",
+"ESDP":"esdp.html",
+"ATI":"ati.html",
+"Coir Vikas Yojana":"coir.html",
+"PMS Scheme":"pms.html",
+"International Cooperation":"ic.html",
+"National SC-ST Hub":"scsthub.html",
+"ASPIRE":"aspire.html",
+"Khadi Gramodyog Vikas Yojana":"kgvy.html",
+"Promotion of MSMEs in NER & Sikkim":"ner.html",
+"PM Vishwakarma":"vishwakarma.html",
+"Tool Rooms":"toolrooms.html",
+"MSME Champions":"champions.html",
+"Self Reliant India Fund":"sri.html",
+"RAMP":"ramp.html",
+"ZED Certification":"zed.html"
+
+};
+
+if(!schemes.length){
+
+list.innerHTML=
+'<div class="empty">No Saved Schemes</div>';
+
+}
+else{
+
+schemes.forEach(item=>{
+
+list.innerHTML +=`
+
+<div class="card">
+
+<a href="${schemeLinks[item]}"
+style="
+text-decoration:none;
+color:white;
+flex:1;
+font-size:26px;
+font-weight:bold;
+">
+
+${item}
+
+</a>
+
+<i class="fa-solid fa-trash deleteBtn"
+onclick="removeScheme('${item}')">
+</i>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* Delete function */
+
+function removeScheme(name){
+
+let saved=
+
+JSON.parse(
+localStorage.getItem(
+"savedSchemes"
+)
+)||[];
+
+saved=saved.filter(
+item=>item!==name
+);
+
+localStorage.setItem(
+"savedSchemes",
+JSON.stringify(saved)
+);
+
+location.reload();
+
+}
+
+</script>
+</body>
+</html>

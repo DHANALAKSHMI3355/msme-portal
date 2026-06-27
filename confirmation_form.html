@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSME Scheme Confirmation Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/confirmation.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <div class="form-container">
+        <div class="form-card animate-fade-in">
+            <div class="form-header">
+                <div class="logo-area">
+                    <i class="fa-solid fa-building-shield"></i>
+                </div>
+                <h2>MSME Scheme Confirmation Form</h2>
+                <p>Please provide your application details</p>
+            </div>
+
+            <form id="msmeForm" novalidate>
+
+                    <div class="form-section animate-slide-up">
+                        <h3 class="section-title"><i class="fa-solid fa-user"></i> Personal Information</h3>
+                    
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="fullName">Full Name *</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-id-card input-icon"></i>
+                                  <input type="text" id="fullName" placeholder="John Doe" required>
+                                </div>
+                              <span class="error-msg" id="nameError">Full name is required</span>
+                            </div>
+
+                        <div class="input-group">
+                            <label for="email">Email ID *</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-envelope input-icon"></i>
+                                <input type="email" id="email" placeholder="example@gmail.com" required>
+                            </div>
+                            <span class="error-msg" id="emailError">Please enter a valid Gmail address</span>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="contactNumber">Contact Number *</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-phone input-icon"></i>
+                                <input type="tel" id="contactNumber" placeholder="10-digit number" maxlength="10" required>
+                            </div>
+                            <span class="error-msg" id="phoneError">Enter a valid 10-digit phone number</span>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="occupation">Occupation *</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-briefcase input-icon"></i>
+                                <select id="occupation" required>
+                                    <option value="" disabled selected>Select Occupation</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="Business Owner">Business Owner</option>
+                                    <option value="Self Employed">Self Employed</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <span class="error-msg" id="occupationError">Please select an occupation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section animate-slide-up">
+                    <h3 class="section-title"><i class="fa-solid fa-clipboard-question"></i> Scheme Confirmation</h3>
+                    <p class="radio-label">Have you applied for any MSME Scheme? *</p>
+                    
+                    <div class="radio-group">
+                        <label class="radio-container">
+                            <input type="radio" name="appliedScheme" value="yes" id="radioYes">
+                            <span class="radio-tile">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Yes</span>
+                            </span>
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="appliedScheme" value="no" id="radioNo">
+                            <span class="radio-tile">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                                <span>No</span>
+                            </span>
+                        </label>
+                    </div>
+                    <span class="error-msg text-center" id="radioError">Please select an option</span>
+                </div>
+
+                <div id="schemeDetailsSection" class="form-section dynamic-section hidden animate-slide-up">
+                    <h3 class="section-title"><i class="fa-solid fa-file-invoice"></i> Scheme Details</h3>
+                    
+                    <div class="input-grid">
+                        <div class="input-group full-width searchable-dropdown-container">
+                            <label for="schemeSearch">Select Scheme *</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-magnifying-glass input-icon"></i>
+                                <input type="text" id="schemeSearch" placeholder="Type to search scheme..." autocomplete="off">
+                                <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                            </div>
+                            <input type="hidden" id="selectedScheme" required>
+                            <ul class="dropdown-list" id="schemeList">
+                                </ul>
+                            <span class="error-msg" id="schemeError">Please select a valid scheme from the list</span>
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="applicationDate">Application Date *</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-calendar-days input-icon"></i>
+                                <input type="date" id="applicationDate">
+                            </div>
+                            <span class="error-msg" id="dateError">Please select a valid date</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="noSchemeNotice" class="no-scheme-message hidden">
+                    <i class="fa-solid fa-circle-info animate-bounce"></i>
+                    <p>Thank you for your response. You have not applied for any MSME Scheme.</p>
+                </div>
+
+                <div class="form-actions text-center">
+                    <button type="submit" id="submitBtn" class="btn btn-gradient">
+                        <span class="btn-text">Submit Details</span>
+                        <div class="spinner hidden" id="btnSpinner"></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-backdrop hidden" id="successModal">
+        <div class="modal-card">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+            <h2>Confirmation Submitted Successfully</h2>
+            <p>Your details have been registered into our portal tracking pipeline.</p>
+            <button class="btn btn-close" id="modalCloseBtn">Close</button>
+        </div>
+    </div>
+
+    <script src="/confirmation.js"></script>
+</body>
+</html>

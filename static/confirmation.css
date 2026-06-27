@@ -1,0 +1,587 @@
+/* ==========================================
+   VARIABLES & DESIGN THEME
+   ========================================== */
+:root {
+    --primary-blue: #0F4C81;
+    --accent-orange: #FF8C00;
+    --success-green: #28A745;
+    --purple: #8E44AD;
+    --bg-light: #F5F7FA;
+    --text-dark: #2D3748;
+    --text-muted: #718096;
+    
+    /* Glassmorphism settings */
+    --glass-bg: rgba(255, 255, 255, 0.82);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: rgba(15, 76, 129, 0.15);
+}
+
+/* ==========================================
+   BASE STYLES & RESET
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-light);
+    background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+/* Dark Transparent Gradient Overlay */
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(15, 76, 129, 0.85) 0%, rgba(45, 55, 72, 0.9) 100%);
+    z-index: 1;
+}
+
+/* Container Structure */
+.form-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 750px;
+}
+
+/* ==========================================
+   GLASSMORPHISM CARD STYLE
+   ========================================== */
+.form-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px var(--glass-shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    -webkit-transition: transform 0.4s ease, box-shadow 0.4s ease;
+    -moz-transition: transform 0.4s ease, box-shadow 0.4s ease;
+    -ms-transition: transform 0.4s ease, box-shadow 0.4s ease;
+    -o-transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Floating card effect on mouse hovering */
+.form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 22px 40px rgba(15, 76, 129, 0.25);
+}
+
+/* Header section styling */
+.form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo-area {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary-blue), var(--purple));
+    color: #fff;
+    border-radius: 50%;
+    font-size: 30px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 20px rgba(15, 76, 129, 0.3);
+}
+
+.form-header h2 {
+    color: var(--primary-blue);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ==========================================
+   SECTIONS & LAYOUT ELEMENTS
+   ========================================== */
+.form-section {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding-bottom: 25px;
+}
+
+.form-section:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title i {
+    color: var(--accent-orange);
+}
+
+/* Input Fields Responsive Grid Structure */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.input-group.full-width {
+    grid-column: span 2;
+}
+
+.input-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+/* Wrapper containing input icons */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    color: var(--text-muted);
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+/* Standardized Field inputs and Dropdowns */
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 12px 15px 12px 42px;
+    border: 1.5px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    color: var(--text-dark);
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Input Focus Animation */
+.input-wrapper input:focus,
+.input-wrapper select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 4px rgba(15, 76, 129, 0.15);
+    background: #fff;
+}
+
+.input-wrapper input:focus + .input-icon,
+.input-wrapper select:focus + .input-icon {
+    color: var(--primary-blue);
+}
+
+/* Styling native select dropdown pointer elements */
+.input-wrapper select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 35px;
+}
+
+/* Custom styled dropdown arrow indicator */
+.dropdown-arrow {
+    position: absolute;
+    right: 15px;
+    color: var(--text-muted);
+    font-size: 12px;
+    pointer-events: none;
+}
+
+/* ==========================================
+   ATTRACTIVE SCHEME RADIO TILES
+   ========================================== */
+.radio-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+.radio-container {
+    flex: 1;
+    cursor: pointer;
+}
+
+.radio-container input {
+    display: none;
+}
+
+.radio-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1.5px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.radio-tile i {
+    font-size: 16px;
+}
+
+.radio-container input:checked + .radio-tile {
+    background: #fff;
+    color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.radio-container #radioYes:checked + .radio-tile {
+    border-color: var(--success-green);
+    background: linear-gradient(135deg, var(--success-green), #2ecc71);
+}
+
+.radio-container #radioNo:checked + .radio-tile {
+    border-color: var(--accent-orange);
+    background: linear-gradient(135deg, var(--accent-orange), #ffb347);
+}
+
+/* ==========================================
+   SEARCHABLE DROPDOWN AUTO-COMPLETE LIST
+   ========================================== */
+.searchable-dropdown-container {
+    position: relative;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    z-index: 10;
+    list-style: none;
+    display: none;
+}
+
+.dropdown-list.show {
+    display: block;
+}
+
+.dropdown-list li {
+    padding: 10px 15px;
+    font-size: 13.5px;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.dropdown-list li:hover {
+    background: rgba(15, 76, 129, 0.08);
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+/* ==========================================
+   DYNAMIC ALTERNATIVE NOTICES & HELPER STATES
+   ========================================== */
+.hidden {
+    display: none !important;
+}
+
+.no-scheme-message {
+    background: rgba(255, 140, 0, 0.08);
+    border-left: 4px solid var(--accent-orange);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #b36200;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.no-scheme-message i {
+    font-size: 20px;
+}
+
+/* Error validation states styling */
+.error-msg {
+    color: #e53e3e;
+    font-size: 11.5px;
+    margin-top: 5px;
+    font-weight: 500;
+    display: none;
+}
+
+.input-group.invalid input,
+.input-group.invalid select {
+    border-color: #e53e3e;
+    background: rgba(255, 245, 245, 0.9);
+}
+
+.input-group.invalid .error-msg {
+    display: block;
+}
+
+.text-center { text-align: center; }
+
+/* ==========================================
+   GRADIENT BUTTONS & ACTION ELEMENTS
+   ========================================== */
+.form-actions {
+    margin-top: 15px;
+}
+
+.btn {
+    padding: 13px 35px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    outline: none;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--purple) 100%);
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 5px 15px rgba(15, 76, 129, 0.3);
+    min-width: 180px;
+}
+
+.btn-gradient:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(142, 68, 173, 0.4);
+}
+
+.btn-gradient:active {
+    transform: translateY(0);
+}
+
+.btn-close {
+    background: var(--text-dark);
+    color: white;
+    margin-top: 10px;
+}
+.btn-close:hover {
+    background: #000;
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ==========================================
+   MODAL DIALOG POPUPS (SUCCESS ALERTS)
+   ========================================== */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: modalScaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal-card h2 {
+    color: var(--primary-blue);
+    font-size: 22px;
+    margin: 20px 0 10px;
+}
+
+.modal-card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* ==========================================
+   ANIMATIONS CORE CONFIGURATION MODULES
+   ========================================== */
+.animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-bounce {
+    animation: verticalBounce 2s infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalScaleUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes verticalBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+    60% { transform: translateY(-3px); }
+}
+
+/* ==========================================
+   SUCCESS CHECKMARK ICON SOURCED STYLINGS
+   ========================================== */
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+.success-checkmark .check-icon {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 4px solid var(--success-green);
+}
+.success-checkmark .check-icon::after, .success-checkmark .check-icon::before {
+    content: '';
+    position: absolute;
+    background: #fff;
+}
+.success-checkmark .check-icon .icon-line {
+    height: 5px;
+    background-color: var(--success-green);
+    display: block;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+}
+.success-checkmark .check-icon .icon-line.line-tip {
+    top: 46px;
+    left: 14px;
+    width: 25px;
+    transform: rotate(45deg);
+}
+.success-checkmark .check-icon .icon-line.line-long {
+    top: 38px;
+    right: 8px;
+    width: 47px;
+    transform: rotate(-45deg);
+}
+.success-checkmark .check-icon .icon-circle {
+    top: -4px;
+    left: -4px;
+    box-sizing: content-box;
+    border: 4px solid rgba(40, 167, 69, .1);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    z-index: 1;
+}
+
+/* ==========================================
+   RESPONSIVE LAYOUT BREAKPOINTS
+   ========================================== */
+@media (max-width: 640px) {
+    .input-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .input-group.full-width {
+        grid-column: span 1;
+    }
+    .form-card {
+        padding: 25px 20px;
+    }
+    .radio-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .form-header h2 {
+        font-size: 21px;
+    }
+}

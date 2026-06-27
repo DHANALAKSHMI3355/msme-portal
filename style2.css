@@ -1,0 +1,373 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:
+        linear-gradient(rgba(8, 22, 48, 0.55), rgba(8, 22, 48, 0.55)),
+        url("image1.png") center/cover no-repeat fixed;
+}
+
+header{
+    background:linear-gradient(135deg, #0b1f3a, #173d6b);
+    color:white;
+    height:80px;
+    margin-bottom:10px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(0,0,0,0.2);
+}
+
+
+
+.overlay{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+}
+
+
+button{
+    padding:20px 40px;
+    border:none;
+    background:#1976d2;
+    color:white;
+    font-size:20px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0d47a1;
+}
+
+.search-box{
+    text-align:center;
+    margin:0 0 8px 0;
+}
+
+.search-box input{
+    width:85%;
+    max-width:900px;
+    padding:14px 16px;
+    border-radius:30px;
+    border:1px solid #d9e7f7;
+    box-shadow:0 8px 18px rgba(0,0,0,0.15);
+    outline:none;
+}
+
+.scheme-container{
+    width:82%;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+/* SCHEME CARD */
+
+.scheme-item{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 22px;
+
+    border-radius:15px;
+
+    background:
+    rgba(255,255,255,0.25);
+
+    backdrop-filter:blur(10px);
+
+    border:
+    1px solid rgba(255,255,255,0.2);
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.15);
+
+    transition:.3s;
+}
+
+/* HOVER EFFECT */
+
+.scheme-item:hover{
+
+    transform:translateX(8px);
+
+    background:
+    linear-gradient(
+    135deg,
+    rgba(25,118,210,.8),
+    rgba(13,71,161,.8)
+    );
+}
+
+/* SCHEME TEXT */
+
+.scheme-item a{
+
+    text-decoration:none;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    flex:1;
+}
+
+/* SAVE ICON */
+
+.save-icon{
+
+    font-size:25px;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+/* ICON HOVER */
+
+.save-icon:hover{
+
+    transform:scale(1.25);
+}
+
+/* SAVED ICON */
+
+.save-icon.saved{
+
+    color:#FFD700;
+
+    text-shadow:
+    0 0 12px #FFD700;
+}
+
+.hero{
+    min-height:auto;
+    background:transparent;
+    position:relative;
+}
+
+.overlay{
+    position:relative;
+    width:100%;
+    min-height:auto;
+    background:transparent;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:14px 16px 8px;
+}
+
+.card{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0px 5px 15px rgba(0,0,0,0.2);
+}
+
+.card:hover{
+    transform:scale(1.03);
+}
+
+.content,
+.content-list{
+    background:rgba(255,255,255,0.72);
+    width:84%;
+    margin:0 auto 14px;
+    padding:12px 24px 18px;
+    border-radius:18px;
+    box-shadow:0 12px 25px rgba(0,0,0,0.12);
+}
+
+.content-list{
+    margin-bottom:40px;
+}
+
+.back-wrap{
+    text-align:center;
+    margin-top:14px;
+}
+
+.back-btn{
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:30px;
+    background:#1976d2;
+    color:#ffffff;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+}
+
+.back-btn:hover{
+    background:#0d47a1;
+}
+
+.scheme-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    background:linear-gradient(
+    135deg,
+    #ffffff,
+    #edf5ff);
+
+    padding:16px 18px;
+
+    border-radius:12px;
+
+    border:1px solid #dbe7f6;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,0.08);
+
+    transition:.3s;
+}
+
+.scheme-item:hover{
+
+    transform:translateX(6px);
+
+    background:linear-gradient(
+    135deg,
+    #1976d2,
+    #0d47a1);
+}
+
+.scheme-item:hover a{
+    color:white;
+}
+
+.scheme-item a{
+
+    text-decoration:none;
+
+    color:#0f2440;
+
+    font-weight:600;
+}
+
+.save-btn{
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    color:#9ca3af;
+
+    padding:10px;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,.15);
+
+    transition:.4s;
+}
+
+.save-btn:hover{
+
+    transform:scale(1.2);
+
+    color:#1976d2;
+
+    background:#eef6ff;
+}
+
+/* Filled bookmark */
+
+.save-btn.saved{
+
+    color:#f59e0b;
+
+    background:#e3e1ea;
+
+    transform:scale(1.1);
+
+    box-shadow:
+    0 5px 15px rgba(70, 63, 206, 0.4);
+}
+/* =========================
+   SCHEME ITEM + SAVE ICON
+========================= */
+
+.scheme-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:linear-gradient(
+    135deg,
+    #ffffff,
+    #edf5ff
+    );
+
+    padding:10px 22px;
+
+    border-radius:14px;
+
+    margin-bottom:12px;
+
+    box-shadow:
+    0 8px 18px rgba(0,0,0,0.12);
+}
+
+.scheme-item a{
+    text-decoration:none;
+    color:#0f2440;
+    font-size:20px;
+    font-weight:700;
+}
+
+
+/* BOOKMARK ICON */
+
+.save-btn{
+
+    font-size:20px;
+
+    color:#5b6b82; /* visible grey */
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+
+    padding:10px;
+}
+
+.save-btn:hover{
+
+    transform:scale(1.25);
+
+    color:#1976d2;
+}
+
+
+/* FILLED BOOKMARK */
+
+.save-btn.saved{
+
+    color:#291384; /* orange when saved */
+
+}

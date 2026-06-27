@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PMEGP Scheme</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+
+    background-image:
+    linear-gradient(
+    rgba(44, 95, 91, 0.85),
+    rgba(115, 37, 110, 0.85)),
+    url("image1.png");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+.header{
+    background:#003366;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    flex:1;
+    width:85%;
+    max-width:1000px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0px 5px 15px rgba(0,0,0,0.2);
+    border-left:8px solid #007bff;
+}
+
+h1{
+    color:#003366;
+    text-align:center;
+}
+
+h2{
+    color:#0066cc;
+    margin-top:25px;
+}
+
+p,li{
+    line-height:1.8;
+}
+
+ul{
+    padding-left:25px;
+}
+
+.btn{
+    display:inline-block;
+    background:linear-gradient(135deg,#007bff,#0056b3);
+    color:white;
+    text-decoration:none;
+    padding:14px 28px;
+    border-radius:30px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+.back{
+    background:linear-gradient(135deg,#28a745,#1f7a33);
+}
+
+.back:hover{
+    background:#1f7a33;
+}
+
+.header{
+    background: linear-gradient(135deg,#003366,#0073e6);
+    color:rgb(227, 233, 235);
+    text-align:center;
+    padding:25px;
+    box-shadow:0px 3px 10px rgba(117, 43, 43, 0.3);
+}
+
+.header h1{
+    color:white;
+    font-size:36px;
+    letter-spacing:1px;
+    margin:0;
+}
+
+.container{
+    width:85%;
+    max-width:1000px;
+    margin:25px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0px 5px 15px rgba(0,0,0,0.15);
+    border-left:8px solid #007bff;
+    transition:0.3s;
+}
+
+.container:hover{
+    transform:translateY(-5px);
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#0066cc;
+}
+
+.section-title img{
+    width:40px;
+    height:40px;
+}
+/* Apply Button Style */
+
+.apply-btn{
+    background:linear-gradient(135deg,#1a73e8,#0056d6);
+    color:white;
+    border:none;
+    padding:18px 42px;
+    border-radius:40px;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 8px 20px rgba(26,115,232,0.3);
+}
+
+.apply-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(26,115,232,0.4);
+}
+
+.button-group{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+<div class="header">
+    <h1>🚀 Entrepreneurship Skill Development Programme (ESDP)</h1>
+    <p>Empowering Entrepreneurs • Generating Employment • Building India</p>
+</div>
+
+
+<div class="container">
+<h2>🎯 Objective</h2>
+<p>
+Promote entrepreneurship and support creation of new MSMEs.
+</p>
+</div>
+<div class="container">
+<h2>✅ Benefits</h2>
+<ul>
+<li>Entrepreneurship Awareness Programs.</li>
+<li>Skill Development Training.</li>
+<li>Management Development Programs.</li>
+</ul>
+</div>
+<div class="container">
+<h2>👤 Eligibility</h2>
+<p>
+Aspiring and Existing Entrepreneurs.
+</p>
+</div>
+<div class="container">
+<h2>📄 Documents Required</h2>
+
+<ul>
+<li>Aadhaar Card</li>
+<li>PAN Card</li>
+<li>Educational Qualification Certificates</li>
+<li>Passport Size Photographs</li>
+<li>Address Proof</li>
+<li>Training Registration Form</li>
+</ul>
+</div>
+<div class="container">
+<h2>📝 Application Process</h2>
+
+<ol>
+<li>Select an ESDP training program.</li>
+<li>Register through MSME Development Institute.</li>
+<li>Submit required documents.</li>
+<li>Attend training sessions.</li>
+<li>Complete assessments and certification process.</li>
+</ol>
+</div>
+<div class="container">
+<h2>🏦 Financial Assistance</h2>
+
+<ul>
+<li>Entrepreneurship development training.</li>
+<li>Skill enhancement programs.</li>
+<li>Business management guidance.</li>
+<li>Support for self-employment opportunities.</li>
+</ul>
+</div>
+<div class="container">
+<h2>🌐 Official Website</h2>
+
+<div class="button-group">
+
+<button
+class="apply-btn"
+onclick="applyScheme('ESDP','https://msmedi.dcmsme.gov.in/')">
+Apply Now
+</button>
+
+<a href="schemes.html" class="btn back">
+Back to Schemes
+</a>
+
+</div>
+</div>
+</body>
+<script>
+async function applyScheme(schemeName, officialUrl){
+
+    // Open official website immediately
+    window.open(officialUrl, "_blank");
+
+    try{
+
+        const response = await fetch('/apply-scheme',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                scheme_name: schemeName
+            })
+        });
+
+        const result = await response.json();
+
+        alert(result.message);
+
+    }
+    catch(error){
+
+        alert("Email/Application recording failed");
+
+    }
+}
+</script>
+</html>

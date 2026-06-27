@@ -1,0 +1,469 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSME Portal Register</title>
+
+<style>
+:root{
+    --bg:#f3f7ff;
+    --card:#ffffff;
+    --primary:#0d4dd4;
+    --primary-strong:#0838a7;
+    --text:#1f2937;
+    --muted:#64748b;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,system-ui,sans-serif;
+    background:url('registerpage.avif') center/cover no-repeat fixed;
+    color:var(--text);
+}
+
+.container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.card{
+    width:100%;
+    max-width:550px;
+
+    padding:35px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.25);
+
+    opacity:1;
+}
+
+h1{
+    margin-bottom:10px;
+    color:white;
+
+    font-size:32px;
+
+    text-align:center;
+
+    text-shadow:
+    0 0 15px rgba(255,255,255,.8);
+}
+
+p{
+    color:#f1f5f9;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+    font-size:15px;
+}
+
+
+label{
+    display:block;
+
+    margin-top:12px;
+    margin-bottom:6px;
+
+    font-weight:700;
+
+    color:white;
+
+    font-size:15px;
+
+    text-shadow:
+    0 0 8px rgba(255,255,255,.6);
+}
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    border:
+    1px solid rgba(255,255,255,.35);
+
+    background:
+    rgba(255,255,255,.18);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    font-size:15px;
+}
+
+#confirmPassword{
+    margin-bottom:30px;
+}
+
+#registerButton{
+
+    margin-top:20px;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    box-shadow:
+    0 8px 20px rgba(13,77,212,.4);
+
+    transition:.3s;
+}
+
+#registerButton:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 12px 25px rgba(13,77,212,.6);
+}
+
+input::placeholder{
+    color:#e2e8f0;
+}
+
+select{
+    color:white;
+}
+
+select option{
+    color:black;
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#3b82f6;
+
+    box-shadow:
+    0 0 15px rgba(59,130,246,.5);
+}
+
+.actions{
+    margin-top:20px;
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:5px;
+
+    color:white;
+}
+
+.actions a{
+
+    color:#60a5fa;
+
+    font-weight:bold;
+
+    text-decoration:none;
+}
+
+.actions a:hover{
+    color:#93c5fd;
+}
+
+.error-box{
+    display:none;
+    margin-bottom:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#fff1f2;
+    border:1px solid #f5c2c7;
+    color:#b91c1c;
+}
+
+.hidden{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="card">
+
+<h1>Create Your MSME Account</h1>
+
+<p>
+Register with a secure password and provide your professional details.
+</p>
+
+<div id="errorBox" class="error-box"></div>
+
+<label>Username</label>
+<input id="username" type="text" placeholder="Enter username">
+
+<label>Email Address</label>
+<input id="email" type="email" placeholder="Enter email address">
+
+<label>Contact Number</label>
+<input id="contact" type="tel" placeholder="Enter mobile number">
+
+<label>Profession</label>
+<select id="profession">
+    <option value="">Select Profession</option>
+    <option value="student">Student</option>
+    <option value="employee">Employee</option>
+    <option value="other">Other</option>
+</select>
+
+<!-- Student Details -->
+<div id="studentFields" class="hidden">
+
+    <label>Institution Name</label>
+    <input id="institution" type="text" placeholder="Institution Name">
+
+    <label>Stream</label>
+    <input id="stream" type="text" placeholder="CSE, ECE, B.Com etc">
+
+    <label>Current Year</label>
+    <select id="year">
+        <option value="">Select Year</option>
+        <option>1st Year</option>
+        <option>2nd Year</option>
+        <option>3rd Year</option>
+        <option>4th Year</option>
+        <option>Completed</option>
+    </select>
+
+</div>
+
+<!-- Employee Details -->
+<div id="employeeFields" class="hidden">
+
+    <label>Company Name</label>
+    <input id="company" type="text" placeholder="Company Name">
+
+    <label>Experience (Years)</label>
+    <input id="experience" type="number" min="0" placeholder="Years of Experience">
+
+</div>
+
+<!-- Other Details -->
+<div id="otherFields" class="hidden">
+
+    <label>Specify Profession</label>
+    <input id="otherProfession" type="text" placeholder="Enter profession">
+
+</div>
+
+<label>Password</label>
+<input id="password" type="password" placeholder="Create password">
+
+<label>Confirm Password</label>
+<input id="confirmPassword" type="password" placeholder="Confirm password">
+
+<button id="registerButton">Register</button>
+
+<div class="actions">
+    <span>Already Registered?</span>
+    <a href="login.html">Login</a>
+</div>
+
+</div>
+</div>
+
+<script>
+
+const errorBox = document.getElementById('errorBox');
+const profession = document.getElementById('profession');
+
+const studentFields = document.getElementById('studentFields');
+const employeeFields = document.getElementById('employeeFields');
+const otherFields = document.getElementById('otherFields');
+
+profession.addEventListener('change', () => {
+
+    studentFields.classList.add('hidden');
+    employeeFields.classList.add('hidden');
+    otherFields.classList.add('hidden');
+
+    if(profession.value === 'student'){
+        studentFields.classList.remove('hidden');
+    }
+
+    if(profession.value === 'employee'){
+        employeeFields.classList.remove('hidden');
+    }
+
+    if(profession.value === 'other'){
+        otherFields.classList.remove('hidden');
+    }
+});
+
+function showError(message){
+    errorBox.style.display='block';
+    errorBox.textContent=message;
+}
+
+function clearError(){
+    errorBox.style.display='none';
+}
+
+function validateEmail(email){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validatePassword(password){
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+}
+
+async function registerUser(){
+
+    clearError();
+
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+
+    const professionValue = profession.value;
+
+    const institution = document.getElementById('institution').value.trim();
+    const stream = document.getElementById('stream').value.trim();
+    const year = document.getElementById('year').value;
+
+    const company = document.getElementById('company').value.trim();
+    const experience = document.getElementById('experience').value;
+
+    const otherProfession =
+    document.getElementById('otherProfession').value.trim();
+
+    const password = document.getElementById('password').value;
+    const confirmPassword =
+    document.getElementById('confirmPassword').value;
+
+    if(!username || !email || !contact || !password || !confirmPassword){
+        showError("Please fill all required fields.");
+        return;
+    }
+
+    if(!validateEmail(email)){
+        showError("Please enter a valid email.");
+        return;
+    }
+
+    if(contact.length !== 10){
+        showError("Contact number must contain 10 digits.");
+        return;
+    }
+
+    if(!professionValue){
+        showError("Please select a profession.");
+        return;
+    }
+
+    if(professionValue === "student"){
+        if(!institution || !stream || !year){
+            showError("Please fill all student details.");
+            return;
+        }
+    }
+
+    if(professionValue === "employee"){
+        if(!company || !experience){
+            showError("Please fill all employee details.");
+            return;
+        }
+    }
+
+    if(professionValue === "other"){
+        if(!otherProfession){
+            showError("Please specify your profession.");
+            return;
+        }
+    }
+
+    if(password !== confirmPassword){
+        showError("Passwords do not match.");
+        return;
+    }
+
+    if(!validatePassword(password)){
+        showError(
+        "Password must contain uppercase, lowercase, number and special character."
+        );
+        return;
+    }
+
+    try{
+
+        const response = await fetch('/register',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                username,
+                email,
+                contact,
+                profession: professionValue,
+                institution,
+                stream,
+                year,
+                company,
+                experience,
+                otherProfession,
+                password
+            })
+        });
+
+        const result = await response.json();
+
+        if(!response.ok){
+            showError(result.message || "Registration failed.");
+            return;
+        }
+
+        alert("Registration Successful!");
+        window.location.href='login.html';
+
+    }catch(error){
+        showError("Unable to connect to server.");
+    }
+}
+
+document
+.getElementById('registerButton')
+.addEventListener('click', registerUser);
+
+document.addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){
+        registerUser();
+    }
+});
+
+</script>
+
+</body>
+</html>

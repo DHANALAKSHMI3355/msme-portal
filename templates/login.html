@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MSME Portal Login</title>
+
+<style>
+
+:root{
+    --primary:#0d4dd4;
+    --primary-dark:#0838a7;
+    --text:#1e293b;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+
+    background-image:url("/static/login%20image.png");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+
+    padding-right:80px;
+}
+
+/* LOGIN CARD */
+
+.card{
+    width:450px;
+
+      background: rgba(0,0,0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius:30px;
+    padding:40px;
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.15),
+        0 25px 60px rgba(0,0,0,.5);
+
+    border:1px solid rgba(255,255,255,.25);
+
+    transition:all .3s ease;
+    margin-right:-100px;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+/* LOGO */
+
+.logo{
+
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:#0d4dd4;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:20px;
+    font-weight:bold;
+
+    margin:auto;
+    margin-bottom:20px;
+}
+
+/* TITLE */
+
+h1{
+    text-align:center;
+
+    font-size:42px;
+
+    font-weight:800;
+
+    color:#143887;
+
+    margin-bottom:10px;
+
+    letter-spacing:1px;
+
+    text-shadow:
+    0 0 15px rgba(13,77,212,.25);
+}
+
+.portal-name{
+
+    text-align:center;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+    margin-bottom:12px;
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#475569;
+
+    margin-bottom:25px;
+
+    line-height:1.5;
+}
+
+/* LABELS */
+
+label{
+
+    display:block;
+
+    margin-top:18px;
+    margin-bottom:8px;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    color:#32456d;
+
+    letter-spacing:.5px;
+
+    text-transform:uppercase;
+}
+
+/* INPUTS */
+input{
+
+    width:100%;
+
+    padding:16px 18px;
+
+    border-radius:14px;
+
+    border:2px solid transparent;
+
+    background:#ffffff;
+
+    font-size:15px;
+
+    transition:all .3s ease;
+
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.08);
+
+    margin-bottom:12px;
+}
+
+input:hover{
+
+    transform:translateY(-2px);
+}
+
+input:focus{
+
+    border-color:#2d509a;
+
+    box-shadow:
+    0 0 0 4px rgba(13,77,212,.15),
+    0 10px 25px rgba(13,77,212,.15);
+}
+
+input:focus{
+
+    border-color:#2a4889;
+
+    box-shadow:
+    0 0 8px rgba(13,77,212,.3);
+}
+
+/* BUTTON */
+
+button{
+
+    width:100%;
+
+    padding:16px;
+
+    margin-top:20px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+    135deg,
+    #2c509e,
+    #4f7ad6
+    );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:all .3s ease;
+
+    box-shadow:
+    0 10px 25px rgba(13,77,212,.25);
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 15px 35px rgba(13,77,212,.35);
+}
+/* REGISTER */
+
+.actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:5px;
+
+    margin-top:20px;
+}
+
+.actions span{
+    color:#475569;
+}
+
+.actions a{
+
+    text-decoration:none;
+
+    color:#0d4dd4;
+
+    font-weight:bold;
+}
+
+/* ERROR */
+
+.error-box{
+
+    display:none;
+
+    margin-bottom:15px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:#fee2e2;
+
+    color:#991b1b;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    body{
+
+        justify-content:center;
+
+        padding:20px;
+    }
+
+    .card{
+
+        width:100%;
+        max-width:400px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        MSME
+    </div>
+
+    <h1>Welcome</h1>
+
+    <div class="portal-name">
+        MSME Unified Portal
+    </div>
+    <div id="errorBox" class="error-box"></div>
+
+    <label for="username" <style = "display:block; margin-bottom:8px; margin-top:12px; color:#334766; font-weight:600;" > 
+        Username or Email
+    </label>
+
+    <input
+        id="username"
+        type="text"
+        placeholder="Enter username or email"
+        autocomplete="username"
+    >
+
+    <label for="password">
+        Password
+    </label>
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="current-password"
+    >
+
+    <button id="loginButton">
+        Login
+    </button>
+
+    <div class="actions">
+        <span>Need an account?</span>
+        <a href="register.html">Register</a>
+    </div>
+
+</div>
+
+<script>
+
+const errorBox =
+document.getElementById('errorBox');
+
+const loginButton =
+document.getElementById('loginButton');
+
+function showError(message){
+
+    errorBox.textContent = message;
+    errorBox.style.display = 'block';
+}
+
+function clearError(){
+
+    errorBox.textContent = '';
+    errorBox.style.display = 'none';
+}
+
+async function loginUser(){
+
+    clearError();
+
+    const username =
+    document.getElementById('username').value.trim();
+
+    const password =
+    document.getElementById('password').value;
+
+    if(!username || !password){
+
+        showError(
+        'Username/email and password are required.'
+        );
+
+        return;
+    }
+
+    try{
+
+        const response =
+        await fetch('/login',{
+
+            method:'POST',
+
+            headers:{
+                'Content-Type':'application/json'
+            },
+
+            body:JSON.stringify({
+                username,
+                password
+            })
+
+        });
+
+        const result =
+        await response.json();
+
+        if(!response.ok){
+
+            showError(
+            result.message || 'Login failed.'
+            );
+
+            return;
+        }
+
+        window.location.href='index.html';
+
+    }catch(error){
+
+        showError(
+        'Unable to connect to the server.'
+        );
+    }
+}
+
+loginButton.addEventListener(
+'click',
+loginUser
+);
+
+document.addEventListener(
+'keydown',
+event => {
+
+    if(event.key === 'Enter'){
+
+        loginUser();
+    }
+});
+
+</script>
+
+</body>
+</html>

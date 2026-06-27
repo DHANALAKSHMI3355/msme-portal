@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:#f4f6f9;
+    font-family:Arial, sans-serif;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.header h1{
+    color:#003b7a;
+}
+
+.back-btn{
+    background:#0d6efd;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:#0b5ed7;
+}
+
+.notification-card{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:15px;
+    border-bottom:1px solid #ddd;
+}
+
+.notification-card i{
+    font-size:22px;
+    color:#ff9800;
+}
+
+.notification-content{
+    flex:1;
+}
+
+.notification-message{
+    font-size:16px;
+    font-weight:600;
+}
+
+.notification-time{
+    font-size:13px;
+    color:gray;
+    margin-top:5px;
+}
+
+.no-data{
+    text-align:center;
+    color:gray;
+    padding:30px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>
+            <i class="fa-solid fa-bell"></i>
+            Notifications
+        </h1>
+
+        <button class="back-btn"
+        onclick="window.location.href='/dashboard'">
+            Back To Dashboard
+        </button>
+
+    </div>
+
+    <div id="notificationContainer">
+
+        <div class="no-data">
+            Loading Notifications...
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+async function loadNotifications(){
+    await fetch(
+    '/api/read-notifications',
+    {
+        method:'POST'
+    }
+);
+
+    try{
+
+        const response =
+        await fetch('/api/notifications');
+
+        const notifications =
+        await response.json();
+
+        const container =
+        document.getElementById(
+            'notificationContainer'
+        );
+
+        container.innerHTML = '';
+
+        if(notifications.length === 0){
+
+            container.innerHTML = `
+                <div class="no-data">
+                    No Notifications Available
+                </div>
+            `;
+
+            return;
+        }
+
+        notifications.forEach(item => {
+
+            const card =
+            document.createElement('div');
+
+            card.className =
+            'notification-card';
+
+            card.innerHTML = `
+                <i class="fa-solid fa-envelope-circle-check"></i>
+
+                <div class="notification-content">
+
+                    <div class="notification-message">
+                        ${item.message}
+                    </div>
+
+                    <div class="notification-time">
+                        ${item.created_at}
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        });
+
+    }
+    catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+loadNotifications();
+
+</script>
+
+</body>
+</html>
