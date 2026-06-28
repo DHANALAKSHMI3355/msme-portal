@@ -25,17 +25,21 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 
-app.config['MAIL_USERNAME'] = 'dhanalakshmii1427@gmail.com'
-app.config['MAIL_PASSWORD'] = 'xbdx tlup laiw wxkj'
+import os
+
+app.config['MAIL_USERNAME']=os.environ.get("MAIL_USERNAME")
+app.config['MAIL_PASSWORD']=os.environ.get("MAIL_PASSWORD")
 
 mail = Mail(app)
 
 def send_confirmation_email(receiver_email, token):
     try:
+        print("Calling mail.send()")
         msg = Message(
             'MSME Confirmation Form',
             sender=app.config['MAIL_USERNAME'],
             recipients=[receiver_email]
+            
         )
 
         confirmation_link = f"http://127.0.0.1:5000/confirmation/{token}"
@@ -77,9 +81,12 @@ Website: www.msmeportal.in
 
         mail.send(msg)
 
+        print("mail.send() completed")
+
         print("EMAIL SENT SUCCESSFULLY")
 
     except Exception as e:
+        
         print("EMAIL ERROR:", str(e))
 
 def get_db():
@@ -711,12 +718,17 @@ def apply_scheme():
 
         db.commit()
 
+        print("Database committed")
+
+        print("About to send email")
     
 
     send_confirmation_email(
     user['email'],
     token
     )
+
+    print("Email function finished")
 
     add_notification(
     user['id'],
