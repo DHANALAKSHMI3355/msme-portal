@@ -25,69 +25,54 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")
+app.config['MAIL_ASCII_ATTACHMENTS'] = False
+
 import os
 
 app.config['MAIL_USERNAME']=os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD']=os.environ.get("MAIL_PASSWORD")
 
-mail = Mail(app)
+print("MAIL USER:", app.config["MAIL_USERNAME"])
+print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
 
 def send_confirmation_email(receiver_email, token):
-    try:
-        print("Calling mail.send()")
-        msg = Message(
-            'MSME Confirmation Form',
-            sender=app.config['MAIL_USERNAME'],
-            recipients=[receiver_email]
-            
-        )
 
-        confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
+    with app.app_context():
 
-        msg.body = f"""
+        try:
+
+            print("Calling mail.send()")
+
+            msg = Message(
+                "MSME Confirmation Form",
+                sender=app.config["MAIL_USERNAME"],
+                recipients=[receiver_email]
+            )
+
+            confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
+
+            msg.body = f"""
 Dear Applicant,
 
-Thank you for showing interest in the MSME Scheme Registration Portal.
+Thank you for applying.
 
-We have received your request regarding the selected MSME scheme. To ensure the accuracy of your application and complete the registration verification process, we request you to confirm your scheme registration details through the verification form provided below.
-
-The information submitted through this form will be used to:
-
-• Verify your eligibility for the selected MSME scheme.
-• Validate your registration details.
-• Maintain accurate records for future communication and scheme-related updates.
-• Facilitate a smooth and transparent application process.
-
-Please ensure that all information provided in the form is accurate and up to date. Any incorrect or incomplete information may delay the verification process.
-
-Fill this form to confirm your scheme registration:
+Please click the link below to confirm your application.
 
 {confirmation_link}
 
-If you have already completed the verification form, please ignore this email.
-
-For any queries or assistance, feel free to contact our support team.
-
-Thank you for choosing the MSME Portal. We look forward to assisting you in your business growth journey.
-
 Regards,
-
-MSME Portal Team
-Government Support & Registration Services
-
-Email: support@msmeportal.in
-Website: www.msmeportal.in
+MSME Portal
 """
 
-        mail.send(msg)
+            mail.send(msg)
 
-        print("mail.send() completed")
+            print("EMAIL SENT SUCCESSFULLY")
 
-        print("EMAIL SENT SUCCESSFULLY")
+        except Exception as e:
 
-    except Exception as e:
-        
-        print("EMAIL ERROR:", str(e))
+            print("EMAIL ERROR:", str(e))
 
 def get_db():
     connection = sqlite3.connect(DB_PATH)
@@ -472,7 +457,7 @@ def register():
 def send_reminder_email(receiver_email, token):
 
     confirmation_link = \
-        f"http://127.0.0.1:5000/confirmation/{token}"
+        f"https://msme-portal-1210.onrender.com/confirmation/{token}"
 
     msg = Message(
         'Reminder - MSME Confirmation Pending',
@@ -723,34 +708,36 @@ def apply_scheme():
         print("About to send email")
     
 
-    threading.Thread(
-    target=send_confirmation_email,
-    args=(user['email'], token),
-    daemon=True
-).start()
-    return jsonify({
-    "message": "Application submitted successfully"
-}), 200
+        threading.Thread(
+        target=send_confirmation_email,
+        args=(user['email'], token),
+        daemon=True
+    ).start()
+        threading.Thread(
+        target=send_confirmation_email,
+        args=(user['email'], token),
+        daemon=True
+    ).start()
 
-    print("Email function finished")
+        threading.Thread(
+        target=schedule_reminder,
+        args=(
+            token,
+            user['email'],
+            user['id'],
+            scheme_name
+        ),
+        daemon=True
+    ).start()
 
     add_notification(
-    user['id'],
-    f"Confirmation mail sent for {scheme_name}"
+        user['id'],
+        f"Confirmation mail sent for {scheme_name}"
     )
 
-    threading.Thread(
-    target=schedule_reminder,
-    args=(
-        token,
-        user['email'],
-        user['id'],
-        scheme_name
-    )
-).start()
     return jsonify({
-        "message": "Confirmation email sent successfully"
-    }) 
+        "message": "Application submitted successfully"
+    }), 200
 
 
 @app.route('/confirmation/<token>')
