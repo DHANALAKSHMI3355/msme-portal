@@ -34,6 +34,10 @@ import os
 app.config['MAIL_USERNAME']=os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD']=os.environ.get("MAIL_PASSWORD")
 
+mail = Mail(app)
+
+print(mail)
+
 print("MAIL USER:", app.config["MAIL_USERNAME"])
 print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
 
