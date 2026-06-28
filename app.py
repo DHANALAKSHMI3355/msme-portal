@@ -42,7 +42,7 @@ def send_confirmation_email(receiver_email, token):
             
         )
 
-        confirmation_link = f"http://127.0.0.1:5000/confirmation/{token}"
+        confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
 
         msg.body = f"""
 Dear Applicant,
@@ -723,10 +723,14 @@ def apply_scheme():
         print("About to send email")
     
 
-    send_confirmation_email(
-    user['email'],
-    token
-    )
+    threading.Thread(
+    target=send_confirmation_email,
+    args=(user['email'], token),
+    daemon=True
+).start()
+    return jsonify({
+    "message": "Application submitted successfully"
+}), 200
 
     print("Email function finished")
 
@@ -746,7 +750,7 @@ def apply_scheme():
 ).start()
     return jsonify({
         "message": "Confirmation email sent successfully"
-    })
+    }) 
 
 
 @app.route('/confirmation/<token>')
