@@ -24,18 +24,10 @@ app.config['JSON_SORT_KEYS'] = False
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")
-app.config['MAIL_ASCII_ATTACHMENTS'] = False
 
-import os
-
-app.config['MAIL_USERNAME']=os.environ.get("MAIL_USERNAME")
-app.config['MAIL_PASSWORD']=os.environ.get("MAIL_PASSWORD")
-
-app.config['MAIL_DEBUG'] = True
-app.config['MAIL_SUPPRESS_SEND'] = False
+app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
 
 mail = Mail(app)
 
@@ -55,7 +47,7 @@ def send_confirmation_email(receiver_email, token):
             msg = Message(
                 "MSME Confirmation Form",
                 sender=app.config["MAIL_USERNAME"],
-                recipients=["dhanalakshmii1427@gmail.com"]
+                recipients=[receiver_email]
             )
 
             confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
@@ -73,12 +65,13 @@ Regards,
 MSME Portal
 """
 
-            with mail.connect() as conn:
-                conn.send(msg)
+        try:
+            mail.send(msg)
+            print("Reminder email sent")
+        except Exception as e:
+            print("Reminder email error:", e)
 
             print("EMAIL SENT SUCCESSFULLY")
-
-        except Exception as e:
 
             print("EMAIL ERROR:", str(e))
 
@@ -513,10 +506,10 @@ def schedule_reminder(
 
             if row and row['verified'] == 0:
 
-                send_reminder_email(
-                    email,
-                    token
-                )
+                try:
+                    send_reminder_email(email, token)
+                except Exception as e:
+                    print("Reminder Thread Error:", e)
                 add_notification(
                     user_id,
                     f"Reminder mail sent for {scheme_name}"
