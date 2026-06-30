@@ -34,6 +34,9 @@ import os
 app.config['MAIL_USERNAME']=os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD']=os.environ.get("MAIL_PASSWORD")
 
+app.config['MAIL_DEBUG'] = True
+app.config['MAIL_SUPPRESS_SEND'] = False
+
 mail = Mail(app)
 
 print(mail)
@@ -52,7 +55,7 @@ def send_confirmation_email(receiver_email, token):
             msg = Message(
                 "MSME Confirmation Form",
                 sender=app.config["MAIL_USERNAME"],
-                recipients=[receiver_email]
+                recipients=["dhanalakshmii1427@gmail.com"]
             )
 
             confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
@@ -70,7 +73,8 @@ Regards,
 MSME Portal
 """
 
-            mail.send(msg)
+            with mail.connect() as conn:
+                conn.send(msg)
 
             print("EMAIL SENT SUCCESSFULLY")
 
@@ -717,11 +721,6 @@ def apply_scheme():
         args=(user['email'], token),
         daemon=True
     ).start()
-        threading.Thread(
-        target=send_confirmation_email,
-        args=(user['email'], token),
-        daemon=True
-    ).start()
 
         threading.Thread(
         target=schedule_reminder,
@@ -841,6 +840,7 @@ def fix_status():
 
     return "Status Updated Successfully"
 
-if __name__ == '__main__':
-    init_db()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+init_db()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
