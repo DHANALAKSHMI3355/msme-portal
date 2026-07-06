@@ -42,10 +42,10 @@ def send_confirmation_email(receiver_email, token):
 
         try:
 
-            print("Calling mail.send()")
+            print("Preparing email...")
 
             msg = Message(
-                "MSME Confirmation Form",
+                subject="MSME Confirmation Form",
                 sender=app.config["MAIL_USERNAME"],
                 recipients=[receiver_email]
             )
@@ -65,15 +65,15 @@ Regards,
 MSME Portal
 """
 
-        try:
+            print("Calling mail.send()")
+
             mail.send(msg)
-            print("Reminder email sent")
-        except Exception as e:
-            print("Reminder email error:", e)
 
             print("EMAIL SENT SUCCESSFULLY")
 
-            print("EMAIL ERROR:", str(e))
+        except Exception as e:
+
+            print("EMAIL ERROR:", e)
 
 def get_db():
     connection = sqlite3.connect(DB_PATH)
@@ -445,7 +445,7 @@ def register():
         return jsonify({'message': 'That email is already registered.'}), 409
 
     password_hash = generate_password_hash(password)
-    created_at = datetime.utcnow().isoformat()
+    created_at = datetime.now().isoformat()
 
     with get_db() as db:
         db.execute(
@@ -479,7 +479,12 @@ Thank You,
 MSME Portal Team
 """
 
-    mail.send(msg)
+    try:
+            print("Sending reminder email...")
+            mail.send(msg)
+            print("Reminder email sent successfully")
+    except Exception as e:
+            print("Reminder email failed:", e)
 
 
 def schedule_reminder(
@@ -566,7 +571,7 @@ def submit_confirmation():
                   AND status='Pending'
                 ''',
                 (
-                    datetime.utcnow().isoformat(),
+                    datetime.now().isoformat(),
                     confirmation['user_id'],
                     confirmation['scheme_name']
                 )
@@ -606,7 +611,7 @@ def submit_confirmation():
                   AND status='Pending'
                 ''',
                 (
-                    datetime.utcnow().isoformat(),
+                    datetime.now().isoformat(),
                     confirmation['user_id'],
                     confirmation['scheme_name']
                 )
@@ -675,9 +680,9 @@ def apply_scheme():
                 user['id'],
                 scheme_name,
                 application_id,
-                datetime.utcnow().date().isoformat(),
+                datetime.now().date().isoformat(),
                 'Pending',
-                datetime.utcnow().isoformat()
+                datetime.now().isoformat()
             )
         )
         db.execute(
@@ -698,7 +703,7 @@ def apply_scheme():
                 scheme_name,
                 user['email'],
                 token,
-                datetime.utcnow().isoformat()
+                datetime.now().isoformat()
             )
         )
 
