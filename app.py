@@ -100,8 +100,9 @@ Please click below:
 
         return True
 
-    except Exception:
+    except Exception as e:
         import traceback
+        print("EMAIL ERROR:", repr(e))
         traceback.print_exc()
         return False
 
