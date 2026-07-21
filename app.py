@@ -657,10 +657,13 @@ def submit_confirmation():
 @login_required_json
 def apply_scheme():
 
+    print("====== APPLY ROUTE CALLED ======")
     print("apply button clicked")
 
     user = get_current_user()
 
+    print("User:", user)
+    
     if not user:
         return jsonify({"message": "User session expired. Please login again."}), 401
 
