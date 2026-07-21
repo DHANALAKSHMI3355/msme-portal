@@ -50,49 +50,60 @@ print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
 
 print(mail)
 
+import smtplib
+from email.mime.text import MIMEText
+
 def send_confirmation_email(receiver_email, token):
 
-    with app.app_context():
+    try:
+        confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
 
-        if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
-            print("EMAIL ERROR: MAIL_USERNAME or MAIL_PASSWORD is not set in environment")
-            return False
-
-        try:
-
-            print("Preparing email...")
-
-            msg = Message(
-                subject="MSME Confirmation Form",
-                sender=app.config["MAIL_USERNAME"],
-                recipients=[receiver_email]
-            )
-
-            confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
-
-            msg.body = f"""
+        body = f"""
 Dear Applicant,
 
 Thank you for applying.
 
-Please click the link below to confirm your application.
+Please click below:
 
 {confirmation_link}
-
-Regards,
-MSME Portal
 """
 
-            print("Before mail.send()")
-            mail.send(msg)
-            print("After mail.send()")
+        msg = MIMEText(body)
+        msg["Subject"] = "MSME Confirmation"
+        msg["From"] = app.config["MAIL_USERNAME"]
+        msg["To"] = receiver_email
 
-            return True
+        server = smtplib.SMTP(
+            "smtp-relay.brevo.com",
+            587,
+            timeout=10
+        )
 
-        except Exception as e:
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
 
-            print("EMAIL ERROR:", e)
-            return False
+        server.login(
+            app.config["MAIL_USERNAME"],
+            app.config["MAIL_PASSWORD"]
+        )
+
+        server.sendmail(
+            app.config["MAIL_USERNAME"],
+            receiver_email,
+            msg.as_string()
+        )
+
+        server.quit()
+
+        print("EMAIL SENT")
+
+        return True
+
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        return False
 
 def get_db():
     connection = sqlite3.connect(DB_PATH)
