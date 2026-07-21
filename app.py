@@ -28,6 +28,7 @@ app.config['MAIL_USE_SSL'] = False
 
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")
 
 mail = Mail(app)
 
@@ -39,6 +40,10 @@ print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
 def send_confirmation_email(receiver_email, token):
 
     with app.app_context():
+
+        if not app.config.get("MAIL_USERNAME") or not app.config.get("MAIL_PASSWORD"):
+            print("EMAIL ERROR: MAIL_USERNAME or MAIL_PASSWORD is not set in environment")
+            return False
 
         try:
 
@@ -70,10 +75,12 @@ MSME Portal
             mail.send(msg)
 
             print("EMAIL SENT SUCCESSFULLY")
+            return True
 
         except Exception as e:
 
             print("EMAIL ERROR:", e)
+            return False
 
 def get_db():
     connection = sqlite3.connect(DB_PATH)
@@ -654,15 +661,20 @@ def apply_scheme():
 
     user = get_current_user()
 
-    scheme_name = request.json.get('scheme_name')
+    if not user:
+        return jsonify({"message": "User session expired. Please login again."}), 401
+
+    payload = request.get_json(silent=True) or {}
+    scheme_name = (payload.get('scheme_name') or '').strip()
+
+    if not scheme_name:
+        return jsonify({"message": "Scheme name is required."}), 400
 
     token = str(uuid.uuid4())
-
     application_id = str(uuid.uuid4())[:8]
 
     with get_db() as db:
 
-        # INSERT APPLICATION
         db.execute(
             '''
             INSERT INTO applications
@@ -686,7 +698,6 @@ def apply_scheme():
             )
         )
         db.execute(
-        # INSERT CONF
             '''
             INSERT INTO confirmations
             (
@@ -709,35 +720,41 @@ def apply_scheme():
 
         db.commit()
 
-        print("Database committed")
+    print("Database committed")
+    print("About to send email")
 
-        print("About to send email")
-    
+    email_sent = send_confirmation_email(user['email'], token)
 
+    if email_sent:
         threading.Thread(
-        target=send_confirmation_email,
-        args=(user['email'], token),
-        daemon=True
-    ).start()
+            target=schedule_reminder,
+            args=(
+                token,
+                user['email'],
+                user['id'],
+                scheme_name
+            ),
+            daemon=True
+        ).start()
 
-        threading.Thread(
-        target=schedule_reminder,
-        args=(
-            token,
-            user['email'],
+        add_notification(
             user['id'],
-            scheme_name
-        ),
-        daemon=True
-    ).start()
+            f"Confirmation mail sent for {scheme_name}"
+        )
+
+        return jsonify({
+            "message": "Application submitted successfully. Confirmation email sent to your registered email.",
+            "email_sent": True
+        }), 200
 
     add_notification(
         user['id'],
-        f"Confirmation mail sent for {scheme_name}"
+        f"Application submitted for {scheme_name}. Email delivery failed due to mail configuration."
     )
 
     return jsonify({
-        "message": "Application submitted successfully"
+        "message": "Application submitted successfully. Email delivery could not be completed because SMTP credentials are not configured.",
+        "email_sent": False
     }), 200
 
 
