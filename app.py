@@ -36,6 +36,10 @@ app.config['MAIL_DEFAULT_SENDER'] = (
     app.config["MAIL_USERNAME"]
 )
 
+app.config["MAIL_MAX_EMAILS"] = 1
+app.config["MAIL_ASCII_ATTACHMENTS"] = False
+app.config["MAIL_TIMEOUT"] = 10
+
 mail = Mail(app)
 
 print(mail)
@@ -79,11 +83,9 @@ Regards,
 MSME Portal
 """
 
-            print("Sending email using Brevo SMTP...")
-
+            print("Before mail.send()")
             mail.send(msg)
-
-            print("EMAIL SENT SUCCESSFULLY")
+            print("After mail.send()")
 
             return True
 
