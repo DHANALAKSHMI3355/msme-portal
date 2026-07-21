@@ -21,21 +21,30 @@ app.config['JSON_SORT_KEYS'] = False
 
 # Mail Configuration
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
+# Mail Configuration
+
+app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
+app.config['MAIL_PORT'] = int(os.environ.get("MAIL_PORT", 587))
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_USERNAME")
+
+app.config['MAIL_DEFAULT_SENDER'] = (
+    "MSME Portal",
+    app.config["MAIL_USERNAME"]
+)
 
 mail = Mail(app)
 
 print(mail)
 
+print("MAIL SERVER:", app.config["MAIL_SERVER"])
 print("MAIL USER:", app.config["MAIL_USERNAME"])
 print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
+
+print(mail)
 
 def send_confirmation_email(receiver_email, token):
 
@@ -70,34 +79,12 @@ Regards,
 MSME Portal
 """
 
-            print("Calling mail.send()")
+            print("Sending email using Brevo SMTP...")
 
-            import smtplib
-
-            print("Connecting to Gmail SMTP...")
-
-            server = smtplib.SMTP("smtp.gmail.com", 587, timeout=10)
-
-            print("Connected!")
-
-            server.starttls()
-
-            print("TLS started")
-
-            server.login(
-                app.config["MAIL_USERNAME"],
-                app.config["MAIL_PASSWORD"]
-            )
-
-            print("Logged in successfully")
-
-            server.quit()
-
-            print("SMTP test successful")
-
-            return False
+            mail.send(msg)
 
             print("EMAIL SENT SUCCESSFULLY")
+
             return True
 
         except Exception as e:
