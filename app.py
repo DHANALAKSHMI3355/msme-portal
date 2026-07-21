@@ -780,9 +780,9 @@ def apply_scheme():
     )
 
     return jsonify({
-        "message": "Application submitted successfully. Email delivery could not be completed because SMTP credentials are not configured.",
-        "email_sent": False
-    }), 200
+    "message": "Application submitted successfully, but the confirmation email could not be sent.",
+    "email_sent": False
+}), 200
 
 
 @app.route('/confirmation/<token>')
