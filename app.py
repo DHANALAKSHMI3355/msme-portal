@@ -72,7 +72,30 @@ MSME Portal
 
             print("Calling mail.send()")
 
-            mail.send(msg)
+            import smtplib
+
+            print("Connecting to Gmail SMTP...")
+
+            server = smtplib.SMTP("smtp.gmail.com", 587, timeout=10)
+
+            print("Connected!")
+
+            server.starttls()
+
+            print("TLS started")
+
+            server.login(
+                app.config["MAIL_USERNAME"],
+                app.config["MAIL_PASSWORD"]
+            )
+
+            print("Logged in successfully")
+
+            server.quit()
+
+            print("SMTP test successful")
+
+            return False
 
             print("EMAIL SENT SUCCESSFULLY")
             return True
@@ -663,7 +686,7 @@ def apply_scheme():
     user = get_current_user()
 
     print("User:", user)
-    
+
     if not user:
         return jsonify({"message": "User session expired. Please login again."}), 401
 
