@@ -269,6 +269,24 @@ def validate_registration_payload(payload):
     return None
 
 
+def validate_password_value(password):
+    if not password:
+        return 'Password is required.'
+    if not PASSWORD_REGEX.match(password):
+        return 'Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.'
+    return None
+
+
+def validate_forgot_password_payload(payload):
+    email = payload.get('email', '').strip().lower()
+    password = payload.get('password', '')
+    if not email:
+        return 'Email is required.'
+    if not EMAIL_REGEX.match(email):
+        return 'Please enter a valid email address.'
+    return validate_password_value(password)
+
+
 def validate_login_payload(payload):
     username = payload.get('username', '').strip()
     password = payload.get('password', '')
@@ -519,6 +537,33 @@ def register():
         db.commit()
 
     return jsonify({'message': 'Registration successful.'}), 201
+
+
+@app.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    payload = request.get_json() or {}
+    error = validate_forgot_password_payload(payload)
+    if error:
+        return jsonify({'message': error}), 400
+
+    email = payload.get('email', '').strip().lower()
+    password = payload.get('password', '')
+
+    user = find_user(email)
+    if user is None:
+        return jsonify({'message': 'No account found with that email address.'}), 404
+
+    password_hash = generate_password_hash(password)
+
+    with get_db() as db:
+        db.execute(
+            'UPDATE users SET password_hash = ? WHERE id = ?',
+            (password_hash, user['id'])
+        )
+        db.commit()
+
+    return jsonify({'message': 'Password updated successfully. You can now log in with your new password.'}), 200
+
 def send_reminder_email(receiver_email, token):
 
     confirmation_link = \

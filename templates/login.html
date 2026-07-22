@@ -361,6 +361,26 @@ button:hover{
     font-size:14px;
 }
 
+.modal-status{
+    display:none;
+    margin-bottom:14px;
+    padding:10px 12px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.modal-status.error{
+    display:block;
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.modal-status.success{
+    display:block;
+    background:#dcfce7;
+    color:#166534;
+}
+
 .modal-actions{
     display:flex;
     gap:10px;
@@ -454,7 +474,10 @@ button:hover{
 <div class="modal-overlay" id="resetModal" aria-hidden="true">
     <div class="modal-card">
         <h3>Reset Password</h3>
-        <p>Enter your new password and confirm it below.</p>
+        <p>Enter your registered email and a new password below.</p>
+        <div class="modal-status" id="resetStatus"></div>
+        <label for="resetEmail">Email Address</label>
+        <input id="resetEmail" type="email" placeholder="Enter registered email" autocomplete="email">
         <label for="newPassword">New Password</label>
         <input id="newPassword" type="password" placeholder="Enter new password" autocomplete="new-password">
         <label for="confirmPassword">Confirm Password</label>
@@ -556,8 +579,10 @@ const forgotPasswordLink = document.getElementById('forgotPasswordLink');
 const resetModal = document.getElementById('resetModal');
 const closeResetModal = document.getElementById('closeResetModal');
 const savePasswordBtn = document.getElementById('savePasswordBtn');
+const resetEmailInput = document.getElementById('resetEmail');
 const newPasswordInput = document.getElementById('newPassword');
 const confirmPasswordInput = document.getElementById('confirmPassword');
+const resetStatus = document.getElementById('resetStatus');
 
 passwordToggle.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
@@ -568,16 +593,21 @@ passwordToggle.addEventListener('click', () => {
 
 forgotPasswordLink.addEventListener('click', (event) => {
     event.preventDefault();
+    resetStatus.className = 'modal-status';
+    resetStatus.textContent = '';
     resetModal.classList.add('active');
     resetModal.setAttribute('aria-hidden', 'false');
-    newPasswordInput.focus();
+    resetEmailInput.focus();
 });
 
 function closeReset() {
     resetModal.classList.remove('active');
     resetModal.setAttribute('aria-hidden', 'true');
+    resetEmailInput.value = '';
     newPasswordInput.value = '';
     confirmPasswordInput.value = '';
+    resetStatus.className = 'modal-status';
+    resetStatus.textContent = '';
 }
 
 closeResetModal.addEventListener('click', closeReset);
@@ -587,22 +617,70 @@ resetModal.addEventListener('click', (event) => {
     }
 });
 
-savePasswordBtn.addEventListener('click', () => {
+savePasswordBtn.addEventListener('click', async () => {
+    const email = resetEmailInput.value.trim().toLowerCase();
     const newPassword = newPasswordInput.value;
     const confirmPassword = confirmPasswordInput.value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};:'"\\|,.<>/?]).{8,}$/;
+
+    if (!email) {
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Please enter your email address.';
+        return;
+    }
+
+    if (!emailRegex.test(email)) {
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Please enter a valid email address.';
+        return;
+    }
 
     if (!newPassword || !confirmPassword) {
-        showError('Please enter and confirm your new password.');
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Please enter and confirm your new password.';
         return;
     }
 
     if (newPassword !== confirmPassword) {
-        showError('Passwords do not match.');
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Passwords do not match.';
         return;
     }
 
-    showError('Password reset request received. Please contact support to complete the update.');
-    closeReset();
+    if (!passwordRegex.test(newPassword)) {
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.';
+        return;
+    }
+
+    try {
+        const response = await fetch('/forgot-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                password: newPassword
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            resetStatus.className = 'modal-status error';
+            resetStatus.textContent = result.message || 'Unable to reset password.';
+            return;
+        }
+
+        resetStatus.className = 'modal-status success';
+        resetStatus.textContent = result.message;
+        setTimeout(closeReset, 1800);
+    } catch (error) {
+        resetStatus.className = 'modal-status error';
+        resetStatus.textContent = 'Unable to connect to the server.';
+    }
 });
 
 document.addEventListener(
