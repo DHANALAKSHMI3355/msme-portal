@@ -113,7 +113,7 @@ def send_confirmation_email(receiver_email, token):
     }
 
     try:
-
+        print("Sending email to:", receiver_email)
         response = requests.post(
             url,
             headers=headers,
