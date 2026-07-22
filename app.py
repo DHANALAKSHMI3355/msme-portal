@@ -122,9 +122,12 @@ def send_confirmation_email(receiver_email, token):
         )
 
         print("Brevo Status:", response.status_code)
-        print(response.text)
+        print("Brevo Response:", response.text)
 
-        return response.status_code == 201
+        if response.status_code == 201:
+            return True
+
+        return False
 
     except Exception as e:
 
