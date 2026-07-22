@@ -324,6 +324,57 @@ button:hover{
     color:#991b1b;
 }
 
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(2, 6, 23, 0.68);
+    backdrop-filter:blur(6px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:1000;
+}
+
+.modal-overlay.active{
+    display:flex;
+}
+
+.modal-card{
+    width:100%;
+    max-width:430px;
+    background:#ffffff;
+    border-radius:20px;
+    padding:28px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+}
+
+.modal-card h3{
+    font-size:24px;
+    color:#0f172a;
+    margin-bottom:8px;
+}
+
+.modal-card p{
+    color:#64748b;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.modal-actions button{
+    margin-top:0;
+}
+
+.btn-secondary{
+    background:linear-gradient(135deg, #64748b, #94a3b8);
+}
+
 /* MOBILE */
 
 @media(max-width:768px){
@@ -387,7 +438,7 @@ button:hover{
         </button>
     </div>
 
-    <a href="register.html" class="forgot-link">Forgot password?</a>
+    <a href="#" class="forgot-link" id="forgotPasswordLink">Forgot password?</a>
 
     <button id="loginButton">
         Login
@@ -398,6 +449,21 @@ button:hover{
         <a href="register.html">Register</a>
     </div>
 
+</div>
+
+<div class="modal-overlay" id="resetModal" aria-hidden="true">
+    <div class="modal-card">
+        <h3>Reset Password</h3>
+        <p>Enter your new password and confirm it below.</p>
+        <label for="newPassword">New Password</label>
+        <input id="newPassword" type="password" placeholder="Enter new password" autocomplete="new-password">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" placeholder="Confirm new password" autocomplete="new-password">
+        <div class="modal-actions">
+            <button type="button" id="closeResetModal" class="btn-secondary">Cancel</button>
+            <button type="button" id="savePasswordBtn">Save Password</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -486,12 +552,57 @@ loginUser
 
 const passwordInput = document.getElementById('password');
 const passwordToggle = document.getElementById('passwordToggle');
+const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+const resetModal = document.getElementById('resetModal');
+const closeResetModal = document.getElementById('closeResetModal');
+const savePasswordBtn = document.getElementById('savePasswordBtn');
+const newPasswordInput = document.getElementById('newPassword');
+const confirmPasswordInput = document.getElementById('confirmPassword');
 
 passwordToggle.addEventListener('click', () => {
     const isHidden = passwordInput.type === 'password';
     passwordInput.type = isHidden ? 'text' : 'password';
     passwordToggle.textContent = isHidden ? '🙈' : '👁️';
     passwordToggle.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+});
+
+forgotPasswordLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    resetModal.classList.add('active');
+    resetModal.setAttribute('aria-hidden', 'false');
+    newPasswordInput.focus();
+});
+
+function closeReset() {
+    resetModal.classList.remove('active');
+    resetModal.setAttribute('aria-hidden', 'true');
+    newPasswordInput.value = '';
+    confirmPasswordInput.value = '';
+}
+
+closeResetModal.addEventListener('click', closeReset);
+resetModal.addEventListener('click', (event) => {
+    if (event.target === resetModal) {
+        closeReset();
+    }
+});
+
+savePasswordBtn.addEventListener('click', () => {
+    const newPassword = newPasswordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    if (!newPassword || !confirmPassword) {
+        showError('Please enter and confirm your new password.');
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        showError('Passwords do not match.');
+        return;
+    }
+
+    showError('Password reset request received. Please contact support to complete the update.');
+    closeReset();
 });
 
 document.addEventListener(
