@@ -50,60 +50,90 @@ print("PASSWORD FOUND:", app.config["MAIL_PASSWORD"] is not None)
 
 print(mail)
 
-import smtplib
-from email.mime.text import MIMEText
+import requests
 
 def send_confirmation_email(receiver_email, token):
 
+    confirmation_link = (
+        f"https://msme-portal-1210.onrender.com/confirmation/{token}"
+    )
+
+    url = "https://api.brevo.com/v3/smtp/email"
+
+    headers = {
+        "accept": "application/json",
+        "api-key": os.environ.get("BREVO_API_KEY"),
+        "content-type": "application/json"
+    }
+
+    payload = {
+        "sender": {
+            "name": "MSME Portal",
+            "email": "dhanalakshmii1427@gmail.com"
+        },
+        "to": [
+            {
+                "email": receiver_email
+            }
+        ],
+        "subject": "MSME Application Confirmation",
+        "htmlContent": f"""
+        <h2>Application Submitted Successfully</h2>
+
+        <p>Dear Applicant,</p>
+
+        <p>
+        Thank you for applying through the MSME Portal.
+        </p>
+
+        <p>
+        Please confirm your application by clicking the button below.
+        </p>
+
+        <a href="{confirmation_link}"
+           style="
+             background:#1a73e8;
+             color:white;
+             padding:12px 20px;
+             text-decoration:none;
+             border-radius:5px;">
+             Confirm Application
+        </a>
+
+        <br><br>
+
+        <p>If the button doesn't work, copy this link:</p>
+
+        <p>{confirmation_link}</p>
+
+        <br>
+
+        <p>Regards,<br>MSME Portal Team</p>
+        """
+    }
+
     try:
-        confirmation_link = f"https://msme-portal-1210.onrender.com/confirmation/{token}"
 
-        body = f"""
-Dear Applicant,
-
-Thank you for applying.
-
-Please click below:
-
-{confirmation_link}
-"""
-
-        msg = MIMEText(body)
-        msg["Subject"] = "MSME Confirmation"
-        msg["From"] = app.config["MAIL_USERNAME"]
-        msg["To"] = receiver_email
-
-        server = smtplib.SMTP(
-            "smtp-relay.brevo.com",
-            587,
-            timeout=10
+        response = requests.post(
+            url,
+            headers=headers,
+            json=payload,
+            timeout=15
         )
 
-        server.ehlo()
-        server.starttls()
-        server.ehlo()
+        print("Brevo Status:", response.status_code)
+        print(response.text)
 
-        server.login(
-            app.config["MAIL_USERNAME"],
-            app.config["MAIL_PASSWORD"]
-        )
-
-        server.sendmail(
-            app.config["MAIL_USERNAME"],
-            receiver_email,
-            msg.as_string()
-        )
-
-        server.quit()
-
-        print("EMAIL SENT")
-
-        return True
+        return response.status_code == 201
 
     except Exception as e:
+
         import traceback
-        print("EMAIL ERROR:", repr(e))
+
+        print("BREVO API ERROR:", e)
+
         traceback.print_exc()
+
         return False
 
 def get_db():
