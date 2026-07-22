@@ -196,6 +196,50 @@ input:focus{
     0 0 8px rgba(13,77,212,.3);
 }
 
+.password-wrapper{
+    position:relative;
+}
+
+.password-wrapper input{
+    padding-right:48px;
+}
+
+.password-toggle{
+    position:absolute;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    background:none;
+    border:none;
+    color:#475569;
+    cursor:pointer;
+    font-size:16px;
+    padding:0;
+    width:auto;
+    margin:0;
+    box-shadow:none;
+}
+
+.password-toggle:hover{
+    color:#0d4dd4;
+    transform:translateY(-50%) scale(1.05);
+}
+
+.forgot-link{
+    display:block;
+    text-align:right;
+    margin-top:-4px;
+    margin-bottom:8px;
+    font-size:14px;
+    color:#0d4dd4;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.forgot-link:hover{
+    text-decoration:underline;
+}
+
 /* BUTTON */
 
 button{
@@ -331,12 +375,19 @@ button:hover{
         Password
     </label>
 
-    <input
-        id="password"
-        type="password"
-        placeholder="Enter password"
-        autocomplete="current-password"
-    >
+    <div class="password-wrapper">
+        <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+            autocomplete="current-password"
+        >
+        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password">
+            👁️
+        </button>
+    </div>
+
+    <a href="register.html" class="forgot-link">Forgot password?</a>
 
     <button id="loginButton">
         Login
@@ -432,6 +483,16 @@ loginButton.addEventListener(
 'click',
 loginUser
 );
+
+const passwordInput = document.getElementById('password');
+const passwordToggle = document.getElementById('passwordToggle');
+
+passwordToggle.addEventListener('click', () => {
+    const isHidden = passwordInput.type === 'password';
+    passwordInput.type = isHidden ? 'text' : 'password';
+    passwordToggle.textContent = isHidden ? '🙈' : '👁️';
+    passwordToggle.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+});
 
 document.addEventListener(
 'keydown',
