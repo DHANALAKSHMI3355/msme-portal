@@ -188,17 +188,73 @@ if(applyBtn){
 // VIEW SCHEMES BUTTON
 // ==========================
 
-const viewBtn =
-document.querySelector(".view-btn");
+const schemePages = {
+    "pmegp": "pmegp.html",
+    "cgtmse": "cgtmse.html",
+    "mudra": "schemes.html",
+    "stand-up india": "schemes.html",
+    "sidbi": "schemes.html",
+    "aspire": "aspire.html",
+    "sfurti": "sfurti.html",
+    "zed": "zed.html",
+    "ramp": "ramp.html",
+    "national sc-st hub": "scsthub.html",
+    "scst hub": "scsthub.html",
+    "coir": "coir.html",
+    "pm vishwakarma": "vishwakarma.html",
+    "vishwakarma": "vishwakarma.html",
+    "esdp": "esdp.html",
+    "export": "schemes.html",
+    "quality": "schemes.html",
+    "women entrepreneurship": "schemes.html",
+    "ic": "ic.html",
+    "toolrooms": "toolrooms.html",
+    "champions": "champions.html",
+    "kgvy": "kgvy.html",
+    "ner": "ner.html",
+    "pms": "pms.html",
+    "msecdp": "msecdp.html",
+    "sri": "sri.html",
+    "coir vikas yojana": "coir.html"
+};
 
-viewBtn.addEventListener("click", () => {
+const viewBtn = document.querySelector(".view-btn");
 
-    alert("Opening Schemes Page");
+function normalizeSchemeKey(text) {
+    return text
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .replace(/[-_]/g, ' ')
+        .replace(/[^a-z0-9 ]/g, '');
+}
 
-    // Example
-    // window.location.href = "schemes.html";
+function getSchemePage(query) {
+    const normalized = normalizeSchemeKey(query);
+    for (const key in schemePages) {
+        const normalizedKey = normalizeSchemeKey(key);
+        if (
+            normalized === normalizedKey ||
+            normalized.includes(normalizedKey) ||
+            normalizedKey.includes(normalized)
+        ) {
+            return schemePages[key];
+        }
+    }
+    return null;
+}
 
-});
+if (viewBtn) {
+    viewBtn.addEventListener("click", () => {
+        const value = searchInput.value.trim();
+        const page = getSchemePage(value || '');
+        if (page) {
+            window.location.href = page;
+            return;
+        }
+        window.location.href = "schemes.html";
+    });
+}
 
 
 // ==========================

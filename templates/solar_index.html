@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Field to Watt to Profit — Solar Project Designer</title>
+    <meta name="description" content="A premium solar project designer with premium dashboard UI and full system calculations." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="solar_style.css" />
+  </head>
+  <body>
+    <div class="page-loader" id="pageLoader">
+      <div class="loader-card">
+        <div class="loader-sun"></div>
+        <div class="loader-text">Preparing your solar studio</div>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="brand-mark"><i class="fa-solid fa-sun"></i></div>
+          <div class="brand-copy">
+            <div class="eyebrow top-eyebrow">Solar Designer</div>
+            <h1>Field to Watt to Profit</h1>
+            <p class="topbar-subtitle">AI Powered Solar Project Designer</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="#" onclick="goTo(0); return false;">Home</a>
+            <span>&gt;</span>
+            <span id="breadcrumbCurrent">Solar Designer</span>
+          </nav>
+          <div class="topbar-actions">
+            <label class="theme-toggle" for="themeSwitch">
+              <input type="checkbox" id="themeSwitch" aria-label="Toggle theme" />
+              <span class="theme-slider"></span>
+              <span class="theme-label"><i class="fa-solid fa-moon"></i></span>
+            </label>
+          </div>
+        </div>
+      </header>
+
+      <div class="dashboard-shell">
+        <aside class="sidebar">
+          <div class="sidebar-brand">
+            <div class="brand-mark large"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <h2>Solar Flow</h2>
+              <p>Smart project designer</p>
+            </div>
+          </div>
+
+          <div class="progress-card">
+            <div class="progress-head">
+              <span>Project progress</span>
+              <strong id="sidebarProgress">0%</strong>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="sidebarFill"></div>
+            </div>
+          </div>
+
+          <ul class="stepper" id="stepper"></ul>
+
+          <div class="sidebar-footer">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Reliable planning logic with premium UX</span>
+          </div>
+        </aside>
+
+        <div class="main-panel">
+          <section class="ticker hidden" id="ticker">
+            <div class="tick"><div class="t-label">Panels fit</div><div class="t-value" id="tk_panels">—</div></div>
+            <div class="tick"><div class="t-label">Capacity</div><div class="t-value" id="tk_capacity">—</div></div>
+            <div class="tick"><div class="t-label">Annual gen.</div><div class="t-value" id="tk_annual">—</div></div>
+            <div class="tick"><div class="t-label">Battery bank</div><div class="t-value" id="tk_batt">—</div></div>
+            <div class="tick"><div class="t-label">Inverter</div><div class="t-value" id="tk_inv">—</div></div>
+            <div class="tick"><div class="t-label">Total cost</div><div class="t-value" id="tk_cost">—</div></div>
+            <div class="tick"><div class="t-label">Payback</div><div class="t-value" id="tk_payback">—</div></div>
+          </section>
+
+          <main>
+            <section class="step-panel active" data-step="0">
+              <div class="hero-card">
+                <div class="hero-copy">
+                  <div class="eyebrow hero-eyebrow">Full solar project designer</div>
+                  <h2>Turn land into a complete solar system — and a profitable outcome.</h2>
+                  <p>Design panels, capacity, storage, inverter, controller, and returns in one premium, guided workflow.</p>
+                  <div class="hero-actions">
+                    <button class="btn primary ripple" onclick="goTo(1)">Start with your land <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn secondary ripple" onclick="loadExample()">Load example</button>
+                  </div>
+                  <div class="hero-stats">
+                    <div class="stat-chip"><strong>12</strong><span>guided steps</span></div>
+                    <div class="stat-chip"><strong>1</strong><span>single workflow</span></div>
+                    <div class="stat-chip"><strong>∞</strong><span>design flexibility</span></div>
+                  </div>
+                </div>
+                <div class="hero-visual" aria-hidden="true">
+                  <div class="solar-illustration">
+                    <div class="panel panel-a"></div>
+                    <div class="panel panel-b"></div>
+                    <div class="tower"></div>
+                    <div class="ground"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="feature-grid">
+                <article class="feature-card">
+                  <div class="feature-icon blue"><i class="fa-solid fa-ruler-combined"></i></div>
+                  <h3>Land-first planning</h3>
+                  <p>Shape the array around the real footprint of your plot and usable area.</p>
+                </article>
+                <article class="feature-card">
+                  <div class="feature-icon cyan"><i class="fa-solid fa-microchip"></i></div>
+                  <h3>System engineering</h3>
+                  <p>Size battery, inverter, and controller from the same consistent inputs.</p>
+                </article>
+                <article class="feature-card">
+                  <div class="feature-icon emerald"><i class="fa-solid fa-chart-pie"></i></div>
+                  <h3>Profit analysis</h3>
+                  <p>Convert annual generation into clear savings, payback, and lifetime ROI.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="1">
+              <div class="panel-card">
+                <div class="eyebrow">Step 1 of 12</div>
+                <h2 class="step-title">Land area calculator</h2>
+                <p class="step-desc">Start with the plot itself. Give the full footprint, then knock off the share that's unusable — access paths, shading, setbacks — to get the area panels can actually occupy.</p>
+
+                <div class="radio-row">
+                  <label class="radio-opt"><input type="radio" name="landMode" value="dims" checked onchange="calcAll()"> Enter length × width</label>
+                  <label class="radio-opt"><input type="radio" name="landMode" value="area" onchange="calcAll()"> Enter total area directly</label>
+                </div>
+
+                <div class="field-grid" id="landDimsFields">
+                  <div class="field"><label for="landLength">Length</label><div class="input-shell"><i class="fa-solid fa-ruler"></i><input type="number" id="landLength" value="100" min="0" oninput="calcAll()"></div><span class="unit">feet</span></div>
+                  <div class="field"><label for="landWidth">Width</label><div class="input-shell"><i class="fa-solid fa-ruler"></i><input type="number" id="landWidth" value="50" min="0" oninput="calcAll()"></div><span class="unit">feet</span></div>
+                </div>
+                <div class="field-grid hidden" id="landAreaFields">
+                  <div class="field"><label for="landAreaDirect">Total area</label><div class="input-shell"><i class="fa-solid fa-square-full"></i><input type="number" id="landAreaDirect" value="5000" min="0" oninput="calcAll()"></div></div>
+                  <div class="field"><label for="landAreaUnit">Unit</label><div class="input-shell"><i class="fa-solid fa-arrows-left-right"></i><select id="landAreaUnit" oninput="calcAll()"><option value="sqft">sq ft</option><option value="sqm">sq m</option><option value="acre">acres</option></select></div></div>
+                </div>
+                <div class="field-grid">
+                  <div class="field"><label for="usablePct">Usable share of land</label><div class="input-shell"><i class="fa-solid fa-chart-pie"></i><input type="number" id="usablePct" value="70" min="1" max="100" oninput="calcAll()"></div><span class="unit">%</span></div>
+                </div>
+
+                <div class="formula-card">total area = length × width  (or entered directly)
+usable area = total area × usable share</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon orange"><i class="fa-solid fa-map"></i></div>
+                    <div>
+                      <div class="result-label">Usable area</div>
+                      <div class="result-hero"><span class="num" id="r_usableArea">0</span><span class="unit-lbl">sq ft usable</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_totalAreaSub">0 sq ft total plot</div>
+                  <div class="progress-row">
+                    <div class="progress-track small"><div class="progress-fill orange"></div></div>
+                  </div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(0)">← Home</button><button class="btn primary ripple" onclick="goTo(2)">Next: Panel fit + cost →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="2">
+              <div class="panel-card">
+                <div class="eyebrow">Step 2 of 12</div>
+                <h2 class="step-title">Solar panel estimation</h2>
+                <p class="step-desc">Divide the usable area by the footprint one panel actually occupies — including the gaps for mounting, tilt, and walking access. Cost per panel and total array cost are calculated automatically from panel area.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="panelFootprint">Area per panel, incl. spacing</label><div class="input-shell"><i class="fa-solid fa-layer-group"></i><input type="number" id="panelFootprint" value="25" min="1" oninput="calcAll()"></div><span class="unit">sq ft</span></div>
+                  <div class="field"><label for="costPerPanelAuto">Cost per panel</label><div class="input-shell"><i class="fa-solid fa-tag"></i><input type="text" id="costPerPanelAuto" value="₹0" readonly></div><span class="unit">auto from panel area</span></div>
+                  <div class="field"><label for="currency">Currency</label><div class="input-shell"><i class="fa-solid fa-coins"></i><select id="currency" oninput="calcAll()"><option value="₹" selected>₹ INR</option><option value="$">$ USD</option><option value="€">€ EUR</option><option value="£">£ GBP</option></select></div></div>
+                </div>
+
+                <div class="formula-card">panel count = usable area ÷ area per panel (incl. spacing)
+cost per panel = panel area × standard area rate
+panel cost total = panel count × cost per panel</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon cyan"><i class="fa-solid fa-solar-panel"></i></div>
+                    <div>
+                      <div class="result-label">Panels fit</div>
+                      <div class="result-hero"><span class="num" id="r_numPanels">0</span><span class="unit-lbl">panels fit</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_panelSub">using 0 sq ft usable area</div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Cost per panel</div><div class="m-value" id="r_panelUnitCost">0</div></div>
+                    <div><div class="m-label">Panel cost, total</div><div class="m-value" id="r_panelCostTotal">0</div></div>
+                  </div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(1)">← Land area</button><button class="btn primary ripple" onclick="goTo(3)">Next: Solar capacity →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="3">
+              <div class="panel-card">
+                <div class="eyebrow">Step 3 of 12</div>
+                <h2 class="step-title">Solar capacity</h2>
+                <p class="step-desc">Every panel carries an electrical spec sheet. Its wattage sets the array's total capacity; its voltage and current (Voc, Isc) will size the wiring and charge controller later on.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="panelWatt">Rating per panel</label><div class="input-shell"><i class="fa-solid fa-bolt"></i><input type="number" id="panelWatt" value="550" min="1" oninput="calcAll()"></div><span class="unit">watts</span></div>
+                  <div class="field"><label for="panelVoc">Panel Voc</label><div class="input-shell"><i class="fa-solid fa-plug-circle-bolt"></i><input type="number" id="panelVoc" value="41.5" step="0.1" oninput="calcAll()"></div><span class="unit">volts</span></div>
+                  <div class="field"><label for="panelIsc">Panel Isc</label><div class="input-shell"><i class="fa-solid fa-battery-full"></i><input type="number" id="panelIsc" value="14" step="0.1" oninput="calcAll()"></div><span class="unit">amps</span></div>
+                </div>
+
+                <div class="formula-card">capacity (kW) = panel count × panel power from V × I ÷ 1000</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon yellow"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <div>
+                      <div class="result-label">Array capacity</div>
+                      <div class="result-hero"><span class="num" id="r_capacity">0</span><span class="unit-lbl">kW DC</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_capacitySub">0 panels × 0 W (using V × I)</div>
+                  <div class="result-sub" id="r_powerDetails">P = 0 W and S = 0 VA per panel</div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(2)">← Panel fit + cost</button><button class="btn primary ripple" onclick="goTo(4)">Next: Daily generation →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="4">
+              <div class="panel-card">
+                <div class="eyebrow">Step 4 of 12</div>
+                <h2 class="step-title">Daily energy generation</h2>
+                <p class="step-desc">Nameplate capacity is the ceiling. Multiply by the site's average peak sun hours and a performance ratio covering wiring, inverter, temperature, and soiling losses.</p>
+                <div class="field-grid">
+                  <div class="field"><label for="sunHours">Peak sun hours / day</label><div class="input-shell"><i class="fa-solid fa-sun"></i><input type="number" id="sunHours" value="5.5" step="0.1" oninput="calcAll()"></div></div>
+                  <div class="field"><label for="perfRatio">Performance ratio</label><div class="input-shell"><i class="fa-solid fa-percent"></i><input type="number" id="perfRatio" value="80" min="1" max="100" oninput="calcAll()"></div><span class="unit">%</span></div>
+                </div>
+                <div class="formula-card">daily energy (kWh) = capacity (kW) × peak sun hours × performance ratio</div>
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon sky"><i class="fa-solid fa-sun"></i></div>
+                    <div>
+                      <div class="result-label">Daily generation</div>
+                      <div class="result-hero"><span class="num" id="r_daily">0</span><span class="unit-lbl">kWh / day</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_dailySub">0 kW × 0 sun hours</div>
+                </div>
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(3)">← Capacity</button><button class="btn primary ripple" onclick="goTo(5)">Next: Monthly generation →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="5">
+              <div class="panel-card">
+                <div class="eyebrow">Step 5 of 12</div>
+                <h2 class="step-title">Monthly generation</h2>
+                <p class="step-desc">Scale the daily figure up to a month. Thirty days is a fair working average across the year.</p>
+                <div class="field-grid">
+                  <div class="field"><label for="daysPerMonth">Days per month</label><div class="input-shell"><i class="fa-solid fa-calendar-days"></i><input type="number" id="daysPerMonth" value="30" min="1" max="31" oninput="calcAll()"></div></div>
+                </div>
+                <div class="formula-card">monthly energy (kWh) = daily energy × days per month</div>
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon indigo"><i class="fa-solid fa-calendar-week"></i></div>
+                    <div>
+                      <div class="result-label">Monthly generation</div>
+                      <div class="result-hero"><span class="num" id="r_monthly">0</span><span class="unit-lbl">kWh / month</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_monthlySub">0 kWh/day × 0 days</div>
+                </div>
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(4)">← Daily generation</button><button class="btn primary ripple" onclick="goTo(6)">Next: Annual generation →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="6">
+              <div class="panel-card">
+                <div class="eyebrow">Step 6 of 12</div>
+                <h2 class="step-title">Annual generation</h2>
+                <p class="step-desc">Twelve months of output — the number the rest of the financial case is built on.</p>
+                <div class="formula-card">annual energy (kWh) = monthly energy × 12</div>
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon navy"><i class="fa-solid fa-chart-column"></i></div>
+                    <div>
+                      <div class="result-label">Annual generation</div>
+                      <div class="result-hero"><span class="num" id="r_annual">0</span><span class="unit-lbl">kWh / year</span></div>
+                    </div>
+                  </div>
+                  <div class="result-sub" id="r_annualSub">0 kWh/month × 12</div>
+                </div>
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(5)">← Monthly generation</button><button class="btn primary ripple" onclick="goTo(7)">Next: Appliance load →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="7">
+              <div class="panel-card">
+                <div class="eyebrow">Step 7 of 12</div>
+                <h2 class="step-title">Appliance load assessment</h2>
+                <p class="step-desc">To size the battery, inverter, and charge controller, work out what the building actually draws — every appliance, its wattage, and how many hours a day it runs.</p>
+
+                <div class="table-shell">
+                  <table id="applianceTable">
+                    <thead><tr><th>Appliance</th><th>Qty</th><th>Watts</th><th>Hrs/day</th><th>Energy per Appliance</th><th></th></tr></thead>
+                    <tbody id="applianceBody"></tbody>
+                  </table>
+                </div>
+                <div class="btn-row btn-row--spaced"><button class="btn secondary ripple" onclick="addRow()">+ Add appliance</button></div>
+
+                <div class="field-grid">
+                  <div class="field"><label for="lossFactor">Safety Margin</label><div class="input-shell"><i class="fa-solid fa-sliders"></i><input type="number" id="lossFactor" value="1.20" step="0.01" min="1" oninput="calcAll()" readonly disabled></div></div>
+                </div>
+
+                <div class="formula-card">Energy per Appliance = qty × watts × hours
+Total Load Demand = sum of all rows
+Required Load Demand = Total Load Demand × Safety Margin</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon amber"><i class="fa-solid fa-house-chimney"></i></div>
+                    <div>
+                      <div class="result-label">Load profile</div>
+                      <div class="result-hero"><span class="num" id="r_totalW">0</span><span class="unit-lbl">W connected load</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Total Load Demand</div><div class="m-value" id="r_totalWh">0 Wh</div></div>
+                    <div><div class="m-label">Required Load Demand</div><div class="m-value" id="r_targetWh">0 Wh</div></div>
+                    <div><div class="m-label">Estimated monthly load</div><div class="m-value" id="r_monthlyLoadWh">0 Wh</div></div>
+                    <div><div class="m-label">Estimated yearly load</div><div class="m-value" id="r_yearlyLoadWh">0 Wh</div></div>
+                  </div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(6)">← Annual generation</button><button class="btn primary ripple" onclick="goTo(8)">Next: Battery bank →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="8">
+              <div class="panel-card">
+                <div class="eyebrow">Step 8 of 12</div>
+                <h2 class="step-title">Battery bank</h2>
+                <p class="step-desc">Deep-cycle batteries are built to be drained and recharged daily for years. Losses in the battery and controller, plus a safe depth of discharge, both eat into usable capacity.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="battVoltage">Bank nominal voltage</label><div class="input-shell"><i class="fa-solid fa-battery-half"></i><select id="battVoltage" oninput="calcAll()"><option value="12">12 V</option><option value="24">24 V</option><option value="48" selected>48 V</option><option value="96">96 V</option></select></div></div>
+                  <div class="field"><label for="battLoss">Battery + controller efficiency</label><div class="input-shell"><i class="fa-solid fa-battery-three-quarters"></i><input type="number" id="battLoss" value="85" oninput="calcAll()"></div><span class="unit">%</span></div>
+                  <div class="field"><label for="dod">Depth of discharge</label><div class="input-shell"><i class="fa-solid fa-droplet"></i><input type="number" id="dod" value="60" oninput="calcAll()"></div><span class="unit">%</span></div>
+                  <div class="field"><label for="autonomy">Days of autonomy</label><div class="input-shell"><i class="fa-solid fa-clock"></i><input type="number" id="autonomy" value="1" min="1" oninput="calcAll()"></div></div>
+                  <div class="field"><label for="battAh">Single battery rating</label><div class="input-shell"><i class="fa-solid fa-car-battery"></i><input type="number" id="battAh" value="200" oninput="calcAll()"></div></div>
+                  <div class="field"><label for="battUnit">Battery unit</label><div class="input-shell"><i class="fa-solid fa-scale-balanced"></i><select id="battUnit" oninput="calcAll()"><option value="Ah" selected>Ah</option><option value="mAh">mAh</option></select></div></div>
+                  <div class="field"><label for="costPerBatt">Cost per battery</label><div class="input-shell"><i class="fa-solid fa-tag"></i><input type="number" id="costPerBatt" value="15000" min="0" oninput="calcAll()"></div></div>
+                </div>
+
+                <div class="formula-card">Ah required = (total Wh/day × days of autonomy) ÷ (battery efficiency × depth of discharge × bank voltage)</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon purple"><i class="fa-solid fa-battery-full"></i></div>
+                    <div>
+                      <div class="result-label">Battery bank capacity</div>
+                      <div class="result-hero"><span class="num" id="r_battAh">0</span><span class="unit-lbl" id="r_battCapacityUnit">Ah bank capacity</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Series (to bank voltage)</div><div class="m-value" id="r_series">0</div></div>
+                    <div><div class="m-label">Parallel strings</div><div class="m-value" id="r_parallel">0</div></div>
+                    <div><div class="m-label">Total batteries</div><div class="m-value" id="r_totalBatt">0</div></div>
+                    <div><div class="m-label">Battery bank cost</div><div class="m-value" id="r_battCost">0</div></div>
+                    <div><div class="m-label">Excess solar energy</div><div class="m-value" id="r_excessEnergy">0 Wh</div></div>
+                    <div><div class="m-label">Storage target</div><div class="m-value" id="r_storageTarget">0 Ah</div></div>
+                  </div>
+                  <div class="result-sub" id="r_battNote">Battery backup requirement will be shown here.</div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(7)">← Appliance load</button><button class="btn primary ripple" onclick="goTo(9)">Next: Inverter →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="9">
+              <div class="panel-card">
+                <div class="eyebrow">Step 9 of 12</div>
+                <h2 class="step-title">Inverter rating</h2>
+                <p class="step-desc">The inverter's rated input should sit comfortably above the connected load, with extra margin if anything on the list has a motor or compressor.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="inverterPhase">Phase type</label><div class="input-shell"><i class="fa-solid fa-plug-circle-check"></i><select id="inverterPhase" onchange="calcAll()"><option value="single" selected>Single phase</option><option value="three">3 phase</option></select></div></div>
+                  <div class="field"><label for="inverterVoltage">Input voltage</label><div class="input-shell"><i class="fa-solid fa-bolt"></i><select id="inverterVoltage" oninput="calcAll()"><option value="360">360 V</option><option value="380">380 V</option><option value="400" selected>400 V</option></select></div></div>
+                </div>
+                <div class="toggle-row"><input type="checkbox" id="motorToggle" onchange="calcAll()"><label for="motorToggle">Household has a motor or compressor load</label></div>
+                <div class="field-grid hidden" id="motorFields">
+                  <div class="field"><label for="motorWatts">Motor/compressor rated watts</label><div class="input-shell"><i class="fa-solid fa-gears"></i><input type="number" id="motorWatts" value="750" min="0" oninput="calcAll()"></div></div>
+                </div>
+
+                <div class="formula-card">inverter size = connected load × (1 + sizing margin) + 3 × motor/compressor watts (if present)
+single phase: current (A) = inverter power (W) ÷ (230 × 0.95 × 0.97)
+three phase: current (A) = inverter power (W) ÷ (√3 × 415 × 0.95 × 0.98)
+total estimated inverter cost = inverter rating (kW) × estimated cost per kW</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon pink"><i class="fa-solid fa-bolt"></i></div>
+                    <div>
+                      <div class="result-label">Inverter rating</div>
+                      <div class="result-hero"><span class="num" id="r_inverter">0</span><span class="unit-lbl">kW minimum rating</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Calculated current rating</div><div class="m-value" id="r_invCurrent">0 A</div></div>
+                    <div><div class="m-label">Estimated sizing margin</div><div class="m-value" id="r_invMarginDisplay">20%</div></div>
+                    <div><div class="m-label">Estimated inverter efficiency</div><div class="m-value" id="r_invEffDisplay">97%</div></div>
+                    <div><div class="m-label">Total estimated inverter cost</div><div class="m-value" id="r_invCostTotal">₹0</div></div>
+                  </div>
+                  <div class="result-sub" id="r_inputEnergy">0 kWh input energy required per day</div>
+                <div class="result-sub" id="r_inverterVoltageLabel">Selected inverter input voltage: 0 V</div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(8)">← Battery bank</button><button class="btn primary ripple" onclick="goTo(10)">Next: Charge controller →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="10">
+              <div class="panel-card">
+                <div class="eyebrow">Step 10 of 12</div>
+                <h2 class="step-title">Charge controller</h2>
+                <p class="step-desc">Use a standard safety margin to compute the required controller rating.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="ctrlMargin">Safety margin</label><div class="input-shell"><i class="fa-solid fa-shield"></i><input type="number" id="ctrlMargin" value="29" oninput="calcAll()"></div><span class="unit">%</span></div>
+                </div>
+
+                <div class="formula-card">series panels = bank voltage ÷ panel Voc (rounded)
+parallel strings = panel count ÷ series panels
+array current = parallel strings × panel Isc
+controller rating ≥ array current × (1 + margin)
+charge controller cost = ₹18,000 if array capacity ≤ 6 kW, else ₹30,000</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon green"><i class="fa-solid fa-sliders"></i></div>
+                    <div>
+                      <div class="result-label">Controller rating</div>
+                      <div class="result-hero"><span class="num" id="r_ctrl">0</span><span class="unit-lbl">A minimum controller rating</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Array voltage</div><div class="m-value" id="r_arrayV">0 V</div></div>
+                    <div><div class="m-label">Array current</div><div class="m-value" id="r_arrayA">0 A</div></div>
+                    <div><div class="m-label">Series / parallel</div><div class="m-value" id="r_seriesParallel">0 / 0</div></div>
+                    <div><div class="m-label">Estimated controller cost</div><div class="m-value" id="r_ctrlCost">₹0</div></div>
+                  </div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(9)">← Inverter</button><button class="btn primary ripple" onclick="goTo(11)">Next: Project cost →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="11">
+              <div class="panel-card">
+                <div class="eyebrow">Step 11 of 12</div>
+                <h2 class="step-title">Project cost</h2>
+                <p class="step-desc">Everything priced so far — panels, backup energy (battery bank + inverter), controller — adds up. Include anything fixed on top, like land prep, permitting, or grid connection.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="fixedCost">Fixed / balance-of-system costs</label><div class="input-shell"><i class="fa-solid fa-screwdriver-wrench"></i><input type="number" id="fixedCost" value="20000" min="0" oninput="calcAll()"></div></div>
+                </div>
+
+                <div class="formula-card">Backup energy cost = battery bank cost + estimated inverter cost
+project cost = panel cost + Backup energy cost + controller cost + fixed costs</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon emerald"><i class="fa-solid fa-wallet"></i></div>
+                    <div>
+                      <div class="result-label">Project cost</div>
+                      <div class="result-hero"><span class="unit-lbl" id="r_costCurrency">₹</span><span class="num" id="r_cost">0</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Panels</div><div class="m-value" id="r_costPanels">0</div></div>
+                    <div><div class="m-label">Backup energy (battery bank + inverter)</div><div class="m-value" id="r_costBackup">0</div></div>
+                    <div><div class="m-label">Controller</div><div class="m-value" id="r_costCtrl">0</div></div>
+                    <div><div class="m-label">Fixed</div><div class="m-value" id="r_costFixed">0</div></div>
+                  </div>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(10)">← Charge controller</button><button class="btn primary ripple" onclick="goTo(12)">Next: ROI →</button></div>
+              </div>
+            </section>
+
+            <section class="step-panel" data-step="12">
+              <div class="panel-card">
+                <div class="eyebrow">Step 12 of 12</div>
+                <h2 class="step-title">ROI — profit analysis</h2>
+                <p class="step-desc">Price the energy at what it would otherwise cost to buy, and annual generation turns into annual savings. From there: payback period, yearly return, and lifetime profit.</p>
+
+                <div class="field-grid">
+                  <div class="field"><label for="rate">Electricity rate</label><div class="input-shell"><i class="fa-solid fa-indian-rupee-sign"></i><input type="number" id="rate" value="7" step="0.1" min="0" oninput="calcAll()"></div><span class="unit">per kWh</span></div>
+                  <div class="field"><label for="lifetime">System lifetime</label><div class="input-shell"><i class="fa-solid fa-calendar"></i><input type="number" id="lifetime" value="25" min="1" max="40" oninput="calcAll()"></div><span class="unit">years</span></div>
+                </div>
+
+                <div class="formula-card">annual savings = annual energy × electricity rate
+payback period (years) = project cost ÷ annual savings
+annual ROI (%) = annual savings ÷ project cost × 100
+lifetime profit = (annual savings × lifetime) − project cost</div>
+
+                <div class="result-card glass">
+                  <div class="result-head">
+                    <div class="result-icon lime"><i class="fa-solid fa-chart-line"></i></div>
+                    <div>
+                      <div class="result-label">Payback & returns</div>
+                      <div class="result-hero"><span class="num" id="r_payback">0</span><span class="unit-lbl">years to payback</span></div>
+                    </div>
+                  </div>
+                  <div class="mini-results">
+                    <div><div class="m-label">Annual savings</div><div class="m-value" id="r_annualSavings">0</div></div>
+                    <div><div class="m-label">Annual ROI</div><div class="m-value" id="r_roiPct">0%</div></div>
+                    <div><div class="m-label">Lifetime profit</div><div class="m-value" id="r_lifetimeProfit">0</div></div>
+                  </div>
+                </div>
+
+                <div class="chart-card">
+                  <div class="chart-head">
+                    <h3>Cumulative cash flow</h3>
+                    <span>Chart.js powered</span>
+                  </div>
+                  <canvas id="cashflowChart"></canvas>
+                </div>
+
+                <div class="nav-row"><button class="btn secondary ripple" onclick="goTo(11)">← Project cost</button><button class="btn primary ripple" onclick="goTo(0)">Start over</button></div>
+              </div>
+            </section>
+          </main>
+
+          <footer class="footer-card">
+            <div>
+              <h3>Solar Studio</h3>
+              <p>Premium planning for modern solar projects.</p>
+            </div>
+            <div class="footer-links">
+              <a href="#"><i class="fa-brands fa-linkedin"></i> About</a>
+              <a href="#"><i class="fa-solid fa-envelope"></i> Contact</a>
+              <a href="#"><i class="fa-brands fa-github"></i> GitHub</a>
+            </div>
+            <div class="footer-copy">© 2026 Solar Studio. All rights reserved.</div>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="solar_script.js"></script>
+  </body>
+</html>
