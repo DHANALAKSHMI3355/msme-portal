@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="solar_style.css" />
+    <link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   </head>
   <body>
     <div class="page-loader" id="pageLoader">
@@ -21,30 +23,98 @@
 
     <div class="app-shell">
       <header class="topbar">
-        <div class="topbar-left">
-          <div class="brand-mark"><i class="fa-solid fa-sun"></i></div>
-          <div class="brand-copy">
-            <div class="eyebrow top-eyebrow">Solar Designer</div>
-            <h1>Field to Watt to Profit</h1>
-            <p class="topbar-subtitle">AI Powered Solar Project Designer</p>
-          </div>
+
+    <!-- LEFT SIDE -->
+    <div class="topbar-left">
+
+        <div class="brand-mark">
+            <i class="fa-solid fa-sun"></i>
         </div>
 
-        <div class="topbar-right">
-          <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="#" onclick="goTo(0); return false;">Home</a>
-            <span>&gt;</span>
-            <span id="breadcrumbCurrent">Solar Designer</span>
-          </nav>
-          <div class="topbar-actions">
-            <label class="theme-toggle" for="themeSwitch">
-              <input type="checkbox" id="themeSwitch" aria-label="Toggle theme" />
-              <span class="theme-slider"></span>
-              <span class="theme-label"><i class="fa-solid fa-moon"></i></span>
-            </label>
-          </div>
+        <div class="brand-copy">
+            <div class="eyebrow top-eyebrow">Solar Designer</div>
+            <h1>Field to Watt to Profit</h1>
+            <p class="topbar-subtitle">
+                AI Powered Solar Project Designer
+            </p>
         </div>
-      </header>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div class="topbar-right">
+
+        <a href="index.html"
+           class="back-home-btn"
+           title="Return to MSME Portal">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            <span>Back to Home</span>
+
+        </a>
+
+        <nav class="breadcrumb">
+
+            <a href="#" onclick="goTo(0); return false;">Home</a>
+
+            <span>&gt;</span>
+
+            <span id="breadcrumbCurrent">
+                Solar Designer
+            </span>
+
+        </nav>
+
+        <div class="topbar-actions">
+
+            <!-- =========================
+     Premium Theme Toggle
+========================== -->
+
+<div class="topbar-actions">
+
+    <label class="theme-toggle" for="themeSwitch">
+
+        <input
+            type="checkbox"
+            id="themeSwitch"
+            aria-label="Toggle Dark Mode">
+
+        <div class="theme-track">
+
+            <div class="theme-icons">
+
+                <i class="fa-solid fa-sun sun-icon"></i>
+
+                <i class="fa-solid fa-moon moon-icon"></i>
+
+            </div>
+
+            <div class="theme-thumb">
+
+                <div class="thumb-inner">
+
+                    <i class="fa-solid fa-sun thumb-sun"></i>
+
+                    <i class="fa-solid fa-moon thumb-moon"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </label>
+
+</div>
+
+        </div>
+
+    </div>
+
+</header>
 
       <div class="dashboard-shell">
         <aside class="sidebar">

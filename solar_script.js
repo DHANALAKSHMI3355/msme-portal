@@ -39,17 +39,46 @@ const roadmapSteps = [
 ];
 
 function initApp() {
-  buildStepper();
-  if (document.getElementById('roadmapList')) {
+
+    buildStepper();
+
     buildRoadmap();
-  }
+
+    applyStoredTheme();
+
+    bindEvents();
+
+    addRow("LED lamp",5,12,6);
+
+    addRow("Refrigerator",1,150,24);
+
+    goTo(0);
+
+    calcAll();
+
+    showLoader();
+
+}
   applyStoredTheme();
   addRow('LED lamp', 5, 12, 6);
   addRow('Refrigerator', 1, 150, 24);
   goTo(0);
   calcAll();
-  bindEvents();
-  showLoader();
+  function bindEvents() {
+
+    document.addEventListener("click", createRipple);
+
+    const themeSwitch = document.getElementById("themeSwitch");
+
+    if (themeSwitch) {
+
+        themeSwitch.removeEventListener("change", toggleTheme);
+
+        themeSwitch.addEventListener("change", toggleTheme);
+
+    }
+
+
 }
 
 function buildRoadmap() {
@@ -111,19 +140,37 @@ function showLoader() {
 // =====================
 // THEME / UI HELPERS
 // =====================
+// =====================
+// THEME
+// =====================
+
 function applyStoredTheme() {
-  const saved = localStorage.getItem('solar-theme');
-  const theme = saved || 'dark';
-  document.body.setAttribute('data-theme', theme);
-  document.getElementById('themeSwitch').checked = theme === 'dark';
+
+    const themeSwitch = document.getElementById("themeSwitch");
+
+    const savedTheme = localStorage.getItem("solar-theme") || "light";
+
+    document.body.setAttribute("data-theme", savedTheme);
+
+    if (themeSwitch) {
+        themeSwitch.checked = savedTheme === "dark";
+    }
 }
 
 function toggleTheme() {
-  const theme = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.body.setAttribute('data-theme', theme);
-  localStorage.setItem('solar-theme', theme);
-}
 
+    const themeSwitch = document.getElementById("themeSwitch");
+
+    if (!themeSwitch) return;
+
+    const theme = themeSwitch.checked ? "dark" : "light";
+
+    document.body.setAttribute("data-theme", theme);
+
+    localStorage.setItem("solar-theme", theme);
+
+    console.log("Theme:", theme);
+}
 function createRipple(event) {
   const button = event.target.closest('.btn, .step-btn');
   if (!button) return;
@@ -577,3 +624,8 @@ function calcAll() {
 }
 
 initApp();
+window.addEventListener("DOMContentLoaded",()=>{
+
+    applyStoredTheme();
+
+});
